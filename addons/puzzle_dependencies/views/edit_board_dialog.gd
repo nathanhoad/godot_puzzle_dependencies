@@ -27,6 +27,7 @@ func edit_board(board_data: Dictionary) -> void:
 
 func _on_EditBoardDialog_confirmed():
 	var next_data := {}
-	next_data.merge(data)
-	next_data.merge({ label = label_edit.text }, true)
+	for key in data.keys():
+		next_data[key] = data.get(key)
+	next_data.label = label_edit.text
 	emit_signal("updated", next_data)

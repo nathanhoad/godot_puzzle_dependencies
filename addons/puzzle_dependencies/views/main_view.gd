@@ -125,7 +125,8 @@ func build_boards_menu() -> void:
 
 func set_board_data(id: String, data: Dictionary) -> void:
 	var board_data = boards.get(id) if boards.has(id) else data
-	board_data.merge(data, true)
+	for key in data.keys():
+		board_data[key] = data.get(key)
 	boards[id] = board_data
 	build_boards_menu()
 
@@ -133,14 +134,17 @@ func set_board_data(id: String, data: Dictionary) -> void:
 func save_board() -> void:
 	if boards.has(current_board_id):
 		var data = board.to_serialized()
-		boards[current_board_id].merge(data, true)
+		for key in data.keys():
+			boards[current_board_id][key] = data.get(key)
 	
 	settings.set_value("boards", boards)
 
 
 func remove_board() -> void:
 	var board_data = boards.get(current_board_id)
-	board_data.merge(board.to_serialized(), true)
+	var undo_board_data = board.to_serialized()
+	for key in undo_board_data.keys():
+		board_data[key] = undo_board_data.get(key)
 	
 	undo_redo.create_action("Delete board")
 	undo_redo.add_do_method(self, "_remove_board", current_board_id)
