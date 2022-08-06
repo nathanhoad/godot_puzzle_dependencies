@@ -12,6 +12,10 @@ A tool for making [puzzle dependency charts](https://www.grumpygamer.com/puzzle_
 
 - [Making a chart](docs/Things.md)
 
+## Introduction
+
+[![Introduction video](docs/tutorial.png)](https://youtu.be/nXXc1XaI15k)
+
 ## Discord
 
 [![Join the Discord](docs/discord.svg)](https://discord.gg/zwBVQdJchX)
