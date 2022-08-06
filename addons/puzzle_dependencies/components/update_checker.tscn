@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/puzzle_dependencies/components/update_checker.gd" type="Script" id=1]
+
+[node name="UpdateChecker" type="HTTPRequest"]
+use_threads = true
+script = ExtResource( 1 )
+plugin_name = "puzzle_dependencies"
+plugin_url = "https://github.com/nathanhoad/godot_puzzle_dependencies"
+plugin_config_url = "https://raw.githubusercontent.com/nathanhoad/godot_puzzle_dependencies/main/addons/puzzle_dependencies/plugin.cfg"
+
+[connection signal="request_completed" from="." to="." method="_on_UpdateChecker_request_completed"]

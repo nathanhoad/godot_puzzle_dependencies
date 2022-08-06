@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/puzzle_dependencies/views/edit_type_dialog.gd" type="Script" id=1]
+
+[node name="EditTypeDialog" type="AcceptDialog"]
+margin_right = 324.0
+margin_bottom = 506.0
+window_title = "Pick a color"
+script = ExtResource( 1 )
+
+[node name="ColorPicker" type="ColorPicker" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 316.0
+margin_bottom = 470.0
+
+[connection signal="about_to_show" from="." to="." method="_on_EditTypeDialog_about_to_show"]
+[connection signal="color_changed" from="ColorPicker" to="." method="_on_ColorPicker_color_changed"]

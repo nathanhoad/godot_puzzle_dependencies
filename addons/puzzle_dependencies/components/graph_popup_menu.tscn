@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/puzzle_dependencies/components/graph_popup_menu.gd" type="Script" id=1]
+[ext_resource path="res://addons/puzzle_dependencies/components/icons.gd" type="Script" id=2]
+
+[node name="GraphPopupMenu" type="PopupMenu"]
+margin_right = 20.0
+margin_bottom = 20.0
+items = [ "Add thing here", null, 0, false, false, 0, 0, null, "", false ]
+script = ExtResource( 1 )
+
+[node name="Icons" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[connection signal="id_pressed" from="." to="." method="_on_GraphPopupMenu_id_pressed"]
