@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/puzzle_dependencies/views/main_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/puzzle_dependencies/components/board.tscn" type="PackedScene" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://addons/puzzle_dependencies/components/settings.gd" type="Script" id=4]
 [ext_resource path="res://addons/puzzle_dependencies/views/edit_board_dialog.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/puzzle_dependencies/views/settings_dialog.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/puzzle_dependencies/views/export_dialog.tscn" type="PackedScene" id=8]
 
-[sub_resource type="Image" id=3]
+[sub_resource type="Image" id=1]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -19,7 +20,7 @@ data = {
 [sub_resource type="ImageTexture" id=2]
 flags = 4
 flags = 4
-image = SubResource( 3 )
+image = SubResource( 1 )
 size = Vector2( 16, 16 )
 
 [node name="MainView" type="Control"]
@@ -45,13 +46,13 @@ custom_constants/margin_bottom = 3
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 margin_left = 3.0
-margin_right = 1917.0
-margin_bottom = 1077.0
+margin_right = 1021.0
+margin_bottom = 597.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Toolbar" type="HBoxContainer" parent="Margin/VBox"]
-margin_right = 1914.0
+margin_right = 1018.0
 margin_bottom = 24.0
 
 [node name="AddBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
@@ -67,43 +68,46 @@ margin_bottom = 24.0
 
 [node name="BoardsMenu" type="MenuButton" parent="Margin/VBox/Toolbar"]
 margin_left = 40.0
-margin_right = 142.0
+margin_right = 160.0
 margin_bottom = 24.0
-text = "Main board"
+disabled = true
+text = "No boards yet"
 icon = SubResource( 2 )
-items = [ "Main board", SubResource( 2 ), 0, false, false, 0, 0, null, "", false ]
 __meta__ = {
 "_editor_description_": "Pick a board"
 }
 
 [node name="EditBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 146.0
-margin_right = 174.0
+margin_left = 164.0
+margin_right = 192.0
 margin_bottom = 24.0
 hint_tooltip = "Rename board..."
+disabled = true
 icon = SubResource( 2 )
 __meta__ = {
 "_editor_description_": "Rename the board"
 }
 
 [node name="RemoveBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 178.0
-margin_right = 206.0
+margin_left = 196.0
+margin_right = 224.0
 margin_bottom = 24.0
 hint_tooltip = "Remove board..."
+disabled = true
 icon = SubResource( 2 )
 
 [node name="Spacer" type="Control" parent="Margin/VBox/Toolbar"]
-margin_left = 210.0
-margin_right = 887.0
+margin_left = 228.0
+margin_right = 432.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="AddThingButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 891.0
-margin_right = 983.0
+margin_left = 436.0
+margin_right = 528.0
 margin_bottom = 24.0
 hint_tooltip = "Add a new thing to the board"
+disabled = true
 text = "Add thing"
 icon = SubResource( 2 )
 __meta__ = {
@@ -111,24 +115,25 @@ __meta__ = {
 }
 
 [node name="RemoveThingButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 987.0
-margin_right = 1015.0
+margin_left = 532.0
+margin_right = 560.0
 margin_bottom = 24.0
 hint_tooltip = "Remove selected thing"
+disabled = true
 icon = SubResource( 2 )
 __meta__ = {
 "_editor_description_": "Remove select thing from the board"
 }
 
 [node name="Spacer2" type="Control" parent="Margin/VBox/Toolbar"]
-margin_left = 1019.0
-margin_right = 1697.0
+margin_left = 564.0
+margin_right = 769.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="SettingsButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 1701.0
-margin_right = 1729.0
+margin_left = 773.0
+margin_right = 801.0
 margin_bottom = 24.0
 hint_tooltip = "Settings"
 icon = SubResource( 2 )
@@ -136,14 +141,20 @@ __meta__ = {
 "_editor_description_": "A a new thing to the board"
 }
 
+[node name="ExportButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
+margin_left = 805.0
+margin_right = 833.0
+margin_bottom = 24.0
+icon = SubResource( 2 )
+
 [node name="VSeparator3" type="VSeparator" parent="Margin/VBox/Toolbar"]
-margin_left = 1733.0
-margin_right = 1737.0
+margin_left = 837.0
+margin_right = 841.0
 margin_bottom = 24.0
 
 [node name="HelpButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 1741.0
-margin_right = 1871.0
+margin_left = 845.0
+margin_right = 975.0
 margin_bottom = 24.0
 hint_tooltip = "View online documentation"
 text = "Documentation"
@@ -151,11 +162,11 @@ icon = SubResource( 2 )
 
 [node name="VersionLabel" type="Label" parent="Margin/VBox/Toolbar"]
 modulate = Color( 1, 1, 1, 0.392157 )
-margin_left = 1875.0
-margin_right = 1914.0
+margin_left = 979.0
+margin_right = 1018.0
 margin_bottom = 24.0
 size_flags_vertical = 1
-text = "v1.0.0"
+text = "v1.0.1"
 valign = 1
 
 [node name="UpdateButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
@@ -170,11 +181,12 @@ __meta__ = {
 }
 
 [node name="Board" parent="Margin/VBox" instance=ExtResource( 2 )]
+visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 28.0
-margin_right = 1914.0
-margin_bottom = 1077.0
+margin_right = 1018.0
+margin_bottom = 597.0
 _settings = NodePath("../../../Settings")
 
 [node name="EditBoardDialog" parent="." instance=ExtResource( 5 )]
@@ -188,6 +200,8 @@ window_title = "Remove board?"
 [node name="SettingsDialog" parent="." instance=ExtResource( 6 )]
 _settings = NodePath("../Settings")
 
+[node name="ExportDialog" parent="." instance=ExtResource( 8 )]
+
 [connection signal="visibility_changed" from="." to="." method="_on_MainView_visibility_changed"]
 [connection signal="has_update" from="UpdateChecker" to="." method="_on_UpdateChecker_has_update"]
 [connection signal="pressed" from="Margin/VBox/Toolbar/AddBoardButton" to="." method="_on_AddBoardButton_pressed"]
@@ -196,6 +210,7 @@ _settings = NodePath("../Settings")
 [connection signal="pressed" from="Margin/VBox/Toolbar/AddThingButton" to="." method="_on_AddThingButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Toolbar/RemoveThingButton" to="." method="_on_RemoveThingButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Toolbar/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/ExportButton" to="." method="_on_ExportButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Toolbar/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Toolbar/UpdateButton" to="." method="_on_UpdateButton_pressed"]
 [connection signal="updated" from="EditBoardDialog" to="." method="_on_EditBoardDialog_updated"]

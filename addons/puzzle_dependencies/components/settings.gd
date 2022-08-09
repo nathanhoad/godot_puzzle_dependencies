@@ -20,6 +20,7 @@ func _ready() -> void:
 		config.set_value("boards", "minimap_size", Vector2(200, 150))
 		config.set_value("boards", "use_snap", true)
 		config.set_value("boards", "snap_distance", 20)
+		config.set_value("boards", "export_save_location", "res://")
 	
 	yield(get_parent(), "ready")
 	if not config.has_section("types"):

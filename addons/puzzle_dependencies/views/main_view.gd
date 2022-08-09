@@ -11,12 +11,14 @@ onready var remove_board_button := $Margin/VBox/Toolbar/RemoveBoardButton
 onready var add_thing_button := $Margin/VBox/Toolbar/AddThingButton
 onready var remove_thing_button := $Margin/VBox/Toolbar/RemoveThingButton
 onready var settings_button := $Margin/VBox/Toolbar/SettingsButton
+onready var export_button := $Margin/VBox/Toolbar/ExportButton
 onready var help_button := $Margin/VBox/Toolbar/HelpButton
 onready var update_button := $Margin/VBox/Toolbar/UpdateButton
 onready var board := $Margin/VBox/Board
 onready var edit_board_dialog := $EditBoardDialog
 onready var confirm_remove_board_dialog := $ConfirmRemoveBoardDialog
 onready var settings_dialog := $SettingsDialog
+onready var export_dialog := $ExportDialog
 
 var plugin
 var undo_redo: UndoRedo setget set_undo_redo
@@ -34,6 +36,7 @@ func _ready() -> void:
 	add_thing_button.icon = get_icon("ToolAddNode", "EditorIcons")
 	remove_thing_button.icon = get_icon("Remove", "EditorIcons")
 	settings_button.icon = get_icon("Tools", "EditorIcons")
+	export_button.icon = get_icon("ExternalLink", "EditorIcons")
 	help_button.icon = get_icon("Help", "EditorIcons")
 	
 	# Get boards
@@ -54,10 +57,12 @@ func _ready() -> void:
 	update_button.hide()
 	update_button.add_color_override("font_color", get_color("success_color", "Editor"))
 
+	export_dialog.connect("export_done", self, "_on_export_done")
+
 
 func apply_changes() -> void:
 	save_board()
-	board.apply_changes()	
+	board.apply_changes()
 
 
 ### Setters
@@ -238,3 +243,15 @@ func _on_HelpButton_pressed():
 
 func _on_UpdateButton_pressed():
 	OS.shell_open(update_checker.plugin_url)
+
+
+func _on_ExportButton_pressed():
+	save_board()
+
+	var save_location: String = settings.get_value("export_save_location", "res://")
+
+	export_dialog.export_boards(boards, current_board_id, settings.get_types(), save_location)
+
+
+func _on_export_done(save_location: String):
+	settings.set_value("export_save_location", save_location)
