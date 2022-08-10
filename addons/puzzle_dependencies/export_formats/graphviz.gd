@@ -57,6 +57,7 @@ func _find_type_by_id(types: Array, id: int):
 
 
 func _save_to_disk(text: String, path: String, filename: String) -> bool:
+	print(path)
 	if not path.ends_with("/"):
 		path += "/"
 

@@ -55,15 +55,23 @@ text = "Export format:"
 margin_right = 29.0
 margin_bottom = 20.0
 
-[node name="Label3" type="Label" parent="Margin/VBox"]
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox"]
 margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label3" type="Label" parent="Margin/VBox/HBox"]
+margin_right = 50.0
 margin_bottom = 14.0
 text = "Save to:"
 
-[node name="SaveLocation" type="LineEdit" parent="Margin/VBox"]
+[node name="SaveLocation" type="LineEdit" parent="Margin/VBox/HBox"]
 margin_right = 333.0
 margin_bottom = 203.0
-text = "res://"
+size_flags_horizontal = 3
+
+[node name="SaveLocationButton" type="ToolButton" parent="Margin/VBox/HBox"]
+margin_right = 12.0
+margin_bottom = 22.0
 
 [node name="Center" type="CenterContainer" parent="Margin/VBox"]
 margin_right = 40.0
@@ -114,5 +122,17 @@ popup_exclusive = true
 window_title = "Location Not Found"
 dialog_text = "Please ensure that the save location actually exists."
 
+[node name="ExportFileDialog" type="FileDialog" parent="."]
+margin_right = 315.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 350, 550 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+window_title = "Open a Directory"
+dialog_hide_on_ok = true
+mode = 2
+
+[connection signal="pressed" from="Margin/VBox/HBox/SaveLocationButton" to="." method="_on_SaveLocationButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Center/HBox/ExportButton" to="." method="_on_ExportButton_pressed"]
 [connection signal="pressed" from="Margin/VBox/Center/HBox/DoneButton" to="." method="_on_DoneButton_pressed"]
+[connection signal="dir_selected" from="ExportFileDialog" to="." method="_on_ExportFileDialog_dir_selected"]

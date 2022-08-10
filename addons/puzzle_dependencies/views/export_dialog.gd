@@ -12,15 +12,22 @@ var _types: Array = []
 onready var export_formats := $ExportFormats
 onready var board_list := $Margin/VBox/Boards
 onready var format_list := $Margin/VBox/Formats
-onready var export_save_location := $Margin/VBox/SaveLocation
+onready var save_location_box := $Margin/VBox/HBox/SaveLocation
+onready var save_location_button := $Margin/VBox/HBox/SaveLocationButton
 onready var boards_alert := $BoardsAcceptDialog
 onready var format_alert := $FormatAcceptDialog
 onready var export_finished_alert := $ExportAcceptDialog
 onready var location_does_not_exist_alert := $LocationDoesNotExistAcceptDialog
+onready var export_file_dialog := $ExportFileDialog
+
+
+func _ready() -> void:
+	save_location_button.icon = get_icon("Filesystem", "EditorIcons")
 
 
 func export_boards(boards: Dictionary, current_board_id: String, types: Array, save_location: String) -> void:
-	export_save_location.text = save_location
+	save_location_box.text = save_location
+	export_file_dialog.current_dir = save_location
 	_types = types
 
 	populate_board_list(boards, current_board_id)
@@ -80,11 +87,8 @@ func _on_ExportButton_pressed() -> void:
 
 # TODO: Add in export options object to pass on.
 func _export_to_format(data: Dictionary, format: Node) -> void:
-	if not _validate_location(export_save_location.text):
-		return
-
 	if format.has_method("save_to_format"):
-		var result: bool = format.save_to_format([data], _types, export_save_location.text)
+		var result: bool = format.save_to_format([data], _types, export_file_dialog.current_path)
 
 		if result:
 			export_finished_alert.dialog_text = "Board(s) exported successfully!"
@@ -94,19 +98,17 @@ func _export_to_format(data: Dictionary, format: Node) -> void:
 
 		# Signal done with the save location as we currently don't track how many successes vs
 		# failures for exports there were (other than "all" or "not all").
-		emit_signal("export_done", export_save_location.text)
+		emit_signal("export_done", export_file_dialog.current_path)
 
 		export_finished_alert.popup_centered()
 	else:
 		print("Export format node '%s' has no 'save_to_format' method!" % format.get_name())
 
 
-func _validate_location(location: String) -> bool:
-	# For now, assume we're only saving locally to disk.
-	var dir: Directory = Directory.new()
+func _on_SaveLocationButton_pressed():
+	export_file_dialog.popup_centered()
 
-	if not dir.dir_exists(location):
-		location_does_not_exist_alert.popup_centered()
-		return false
 
-	return true
+func _on_ExportFileDialog_dir_selected(dir):
+	save_location_box.text = dir
+
