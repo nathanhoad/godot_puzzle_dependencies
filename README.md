@@ -22,7 +22,7 @@ A tool for making [puzzle dependency charts](https://www.grumpygamer.com/puzzle_
 
 ## Contributors
 
-Puzzle Dependencies is made by [Nathan Hoad](https://nathanhoad.net).
+Puzzle Dependencies is made by [Nathan Hoad](https://nathanhoad.net) with help from [these cool people](https://github.com/nathanhoad/godot_puzzle_dependencies/graphs/contributors).
 
 ## License
 
