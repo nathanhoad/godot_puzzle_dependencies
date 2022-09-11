@@ -2,6 +2,9 @@ tool
 extends Control
 
 
+const PuzzleConstants = preload("res://addons/puzzle_dependencies/constants.gd")
+
+
 onready var update_checker := $UpdateChecker
 onready var settings := $Settings
 onready var add_board_button := $Margin/VBox/Toolbar/AddBoardButton
@@ -63,6 +66,40 @@ func _ready() -> void:
 func apply_changes() -> void:
 	save_board()
 	board.apply_changes()
+
+
+func prepare_for_version_2() -> void:
+	save_board()
+	
+	# A couple of properties are now different so we have to update them
+	var boards2 = boards.duplicate(true)
+	for b in boards2.values():
+		for t in b.things:
+			t["position_offset"] = t.offset
+			t.erase("offset")
+			t["size"] = t.rect_size
+			t.erase("rect_size")
+	ProjectSettings.set_setting("puzzle_dependencies/boards", boards2)
+	
+	# Save the type labels/colors so they still match up
+	var types = [
+		{ 
+			id = PuzzleConstants.TYPE_DEFAULT,
+			color = Color.black,
+			label = "Default"
+		}
+	] + settings.get_types()
+	ProjectSettings.set_setting("puzzle_dependencies/types", types)
+	
+	# Save general config
+	ProjectSettings.set_setting("puzzle_dependencies/current_board_id", current_board_id)
+	ProjectSettings.set_setting("puzzle_dependencies/minimap_enabled", board.graph.minimap_enabled)
+	ProjectSettings.set_setting("puzzle_dependencies/minimap_size", board.graph.minimap_size)
+	ProjectSettings.set_setting("puzzle_dependencies/use_snap", board.graph.use_snap)
+	ProjectSettings.set_setting("puzzle_dependencies/snap_distance", board.graph.snap_distance)
+	ProjectSettings.set_setting("puzzle_dependencies/last_export_path", settings.get_value("export_save_location", "res://"))
+	
+	ProjectSettings.save()
 
 
 ### Setters

@@ -9,6 +9,8 @@ var main_view
 
 
 func _enter_tree() -> void:
+	add_tool_menu_item("Prepare for Puzzle Dependencies 2", self, "_prepare_for_puzzle_dependencies_2")
+	
 	if Engine.editor_hint:
 		main_view = MainView.instance()
 		get_editor_interface().get_editor_viewport().add_child(main_view)
@@ -18,6 +20,8 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	remove_tool_menu_item("Prepare for Puzzle Dependencies 2")
+	
 	if is_instance_valid(main_view):
 		main_view.queue_free()
 		
@@ -51,3 +55,15 @@ func get_plugin_icon() -> Texture:
 func apply_changes() -> void:
 	if is_instance_valid(main_view):
 		main_view.apply_changes()
+
+
+func _prepare_for_puzzle_dependencies_2(ud) -> void:
+	if is_instance_valid(main_view):
+		main_view.prepare_for_version_2()
+		
+		# Show a message
+		var accept_dialog: AcceptDialog = AcceptDialog.new()
+		accept_dialog.window_title = "Done"
+		accept_dialog.dialog_text = "Finished preparing for Puzzle Dependencies 2. You can delete puzzles.cfg after you upgrade to Godot 4."
+		get_editor_interface().get_base_control().add_child(accept_dialog)
+		accept_dialog.popup_centered()
