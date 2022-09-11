@@ -31,6 +31,8 @@ size_flags_vertical = 3
 script = ExtResource( 1 )
 
 [node name="UpdateChecker" parent="." instance=ExtResource( 3 )]
+plugin_url = "https://github.com/nathanhoad/godot_puzzle_dependencies/tree/v1.x"
+plugin_config_url = "https://raw.githubusercontent.com/nathanhoad/godot_puzzle_dependencies/v1.x/addons/puzzle_dependencies/plugin.cfg"
 
 [node name="Settings" type="Node" parent="."]
 script = ExtResource( 4 )
