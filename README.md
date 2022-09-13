@@ -2,6 +2,8 @@
 
 A tool for making [puzzle dependency charts](https://www.grumpygamer.com/puzzle_dependency_charts) for adventure games made with [Godot Game Engine](https://godotengine.org/). 
 
+_**NOTE:** This is for Godot 4. If you are using Godot 3 then have a look at the [v1.x branch](https://github.com/nathanhoad/godot_puzzle_dependencies/tree/v1.x)._
+
 ## Installation
 
 1. Clone or download a copy of this repository.
