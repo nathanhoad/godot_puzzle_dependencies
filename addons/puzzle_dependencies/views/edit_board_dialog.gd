@@ -1,11 +1,11 @@
-tool
+@tool
 extends ConfirmationDialog
 
 
-signal updated(data)
+signal updated(data: Dictionary)
 
 
-onready var label_edit := $VBox/LabelEdit
+@onready var label_edit: LineEdit = $VBox/LabelEdit
 
 var data: Dictionary = {}
 
@@ -25,9 +25,7 @@ func edit_board(board_data: Dictionary) -> void:
 ### Signals
 
 
-func _on_EditBoardDialog_confirmed():
-	var next_data := {}
-	for key in data.keys():
-		next_data[key] = data.get(key)
-	next_data.label = label_edit.text
+func _on_edit_board_dialog_confirmed():
+	var next_data: Dictionary = data.duplicate()
+	next_data.merge({ label = label_edit.text }, true)
 	emit_signal("updated", next_data)

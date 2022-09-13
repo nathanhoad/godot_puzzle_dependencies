@@ -1,21 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://qnehtcwxu23d"]
 
-[ext_resource path="res://addons/puzzle_dependencies/components/thing_popup_menu.gd" type="Script" id=1]
-[ext_resource path="res://addons/puzzle_dependencies/components/icons.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://addons/puzzle_dependencies/components/thing_popup_menu.gd" id="1_jhu0y"]
 
 [node name="ThingPopupMenu" type="PopupMenu"]
-margin_right = 20.0
-margin_bottom = 20.0
-items = [ "Undo", null, 0, false, false, 101, 268435546, null, "", false, "Redo", null, 0, false, false, 102, 268435545, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Cut", null, 0, false, false, 201, 268435544, null, "", false, "Copy", null, 0, false, false, 202, 268435523, null, "", false, "Paste", null, 0, false, false, 203, 268435542, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Default", null, 2, false, false, 0, 0, null, "", false ]
-script = ExtResource( 1 )
-
-[node name="Icons" type="Node" parent="."]
-script = ExtResource( 2 )
+script = ExtResource("1_jhu0y")
 
 [node name="DisconnectionsMenu" type="PopupMenu" parent="."]
-margin_right = 20.0
-margin_bottom = 20.0
 
-[connection signal="about_to_show" from="." to="." method="_on_ThingPopupMenu_about_to_show"]
-[connection signal="id_pressed" from="." to="." method="_on_ThingPopupMenu_id_pressed"]
-[connection signal="id_pressed" from="DisconnectionsMenu" to="." method="_on_DisconnectionsMenu_id_pressed"]
+[connection signal="about_to_popup" from="." to="." method="_on_thing_popup_menu_about_to_popup"]
+[connection signal="id_pressed" from="." to="." method="_on_thing_popup_menu_id_pressed"]
+[connection signal="id_pressed" from="DisconnectionsMenu" to="." method="_on_disconnections_menu_id_pressed"]

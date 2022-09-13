@@ -6,7 +6,7 @@ Puzzle dependency charts are made up of "boards" and "things". Things can be one
 
 To set up your thing types, click on the settings icon at the top right of the board.
 
-From there you can rename and change the colours of the types.
+From there you can add/rename/remove and change the colours of the types.
 
 ![Settings windo](thing-types.jpg)
 

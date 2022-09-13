@@ -1,28 +1,39 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://syrnlbq255lw"]
 
-[ext_resource path="res://addons/puzzle_dependencies/views/edit_board_dialog.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/puzzle_dependencies/views/edit_board_dialog.gd" id="1_3ur23"]
 
 [node name="EditBoardDialog" type="ConfirmationDialog"]
-visible = true
-margin_right = 275.0
-margin_bottom = 86.0
-window_title = "Add a board..."
-script = ExtResource( 1 )
+title = "Board"
+size = Vector2i(200, 118)
+min_size = Vector2i(200, 110)
+script = ExtResource("1_3ur23")
 
 [node name="VBox" type="VBoxContainer" parent="."]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 267.0
-margin_bottom = 50.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -960.0
+offset_bottom = -579.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
 
-[node name="BoardNameLabel" type="Label" parent="VBox"]
-margin_right = 259.0
-margin_bottom = 14.0
+[node name="Label" type="Label" parent="VBox"]
+layout_mode = 2
+offset_right = 184.0
+offset_bottom = 26.0
 text = "Board label:"
 
 [node name="LabelEdit" type="LineEdit" parent="VBox"]
-margin_top = 18.0
-margin_right = 259.0
-margin_bottom = 42.0
+layout_mode = 2
+offset_top = 26.0
+offset_right = 184.0
+offset_bottom = 57.0
+size_flags_horizontal = 3
+placeholder_text = "Board label"
 
-[connection signal="confirmed" from="." to="." method="_on_EditBoardDialog_confirmed"]
+[connection signal="confirmed" from="." to="." method="_on_edit_board_dialog_confirmed"]

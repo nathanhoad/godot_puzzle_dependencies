@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnv7litlim103"]
+
+[ext_resource type="Script" path="res://addons/puzzle_dependencies/components/update_button.gd" id="1_5m2rk"]
+
+[node name="UpdateButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_5m2rk")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="." to="." method="_on_update_button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

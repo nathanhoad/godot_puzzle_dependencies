@@ -1,9 +1,9 @@
-tool
+@tool
 extends PopupMenu
 
 
-const PuzzleConstants = preload("res://addons/puzzle_dependencies/constants.gd")
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/components/settings.gd")
+const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleIcons = preload("res://addons/puzzle_dependencies/utilities/icons.gd")
 const PuzzleThing = preload("res://addons/puzzle_dependencies/components/thing.gd")
 
 const ITEM_UNDO = 101
@@ -14,26 +14,17 @@ const ITEM_PASTE = 203
 const ITEM_DELETE = 301
 
 
-export(NodePath) var _board := NodePath()
+@onready var disconnections_menu: PopupMenu = $DisconnectionsMenu
 
-onready var icons := $Icons
-onready var board = get_node(_board)
-onready var disconnections_menu := $DisconnectionsMenu
-
-var settings: PuzzleSettings
+var board: Control
 var thing: PuzzleThing
 
 
 ### Helpers
 
 
-func popup_at(position: Vector2) -> void:
-	set_item_disabled(get_item_index(ITEM_UNDO), thing.text_edit.has_undo())
-	set_item_disabled(get_item_index(ITEM_REDO), thing.text_edit.has_redo())
-	for id in PuzzleConstants.TYPES:
-		set_item_checked(get_item_index(id), id == thing.type)
-	
-	rect_global_position = position
+func popup_at(next_position: Vector2) -> void:
+	position = next_position
 	popup()
 
 
@@ -52,9 +43,9 @@ func make_label(string: String) -> String:
 ### Signals
 
 
-func _on_ThingPopupMenu_about_to_show():
+func _on_thing_popup_menu_about_to_popup() -> void:
 	clear()
-	rect_size = Vector2.ZERO
+	size = Vector2.ZERO
 	
 	add_item("Undo", ITEM_UNDO, KEY_MASK_CTRL | KEY_Z)
 	set_item_disabled(get_item_index(ITEM_UNDO), not thing.text_edit.has_undo())
@@ -70,22 +61,16 @@ func _on_ThingPopupMenu_about_to_show():
 	add_separator()
 	
 	# Match the size of another icon in the menu
-	var icon_size = get_icon("Remove", "EditorIcons").get_size()
-	
-	add_radio_check_item("Default", PuzzleConstants.TYPE_DEFAULT)
-	set_item_icon(get_item_index(PuzzleConstants.TYPE_DEFAULT), icons.create_color_icon(Color.black, icon_size))
-	for id in [PuzzleConstants.TYPE_1, PuzzleConstants.TYPE_2, PuzzleConstants.TYPE_3, PuzzleConstants.TYPE_4]:
-		var type = settings.get_type(id)
-		add_radio_check_item(type.label, id)
-		set_item_icon(get_item_index(id), icons.create_color_icon(type.color, icon_size))
-	
-	for id in PuzzleConstants.TYPES:
-		set_item_checked(get_item_index(id), id == thing.type)
+	var icon_size = get_theme_icon("Remove", "EditorIcons").get_size()
+	for type in PuzzleSettings.get_types().values():
+		add_radio_check_item(type.label, type.id)
+		set_item_icon(get_item_index(type.id), PuzzleIcons.create_color_icon(type.color, icon_size))
+		set_item_checked(get_item_index(type.id), type.id == thing.type)
 	
 	add_separator()
 	
 	disconnections_menu.clear()
-	disconnections_menu.rect_size = Vector2.ZERO
+	disconnections_menu.size = Vector2.ZERO
 	var connections: Array = board.graph.get_connection_list()
 	var left_connections := []
 	var right_connections := []
@@ -118,10 +103,10 @@ func _on_ThingPopupMenu_about_to_show():
 		
 		add_separator()
 	
-	add_icon_item(get_icon("Remove", "EditorIcons"), "Remove", ITEM_DELETE)
+	add_icon_item(get_theme_icon("Remove", "EditorIcons"), "Remove", ITEM_DELETE)
 
 
-func _on_ThingPopupMenu_id_pressed(id):
+func _on_thing_popup_menu_id_pressed(id: int) -> void:
 	match id:
 		ITEM_UNDO:
 			thing.text_edit.undo()
@@ -135,18 +120,14 @@ func _on_ThingPopupMenu_id_pressed(id):
 			thing.text_edit.paste()
 		ITEM_DELETE:
 			thing.emit_signal("delete_request")
-		PuzzleConstants.TYPE_DEFAULT, \
-		PuzzleConstants.TYPE_1, \
-		PuzzleConstants.TYPE_2, \
-		PuzzleConstants.TYPE_3, \
-		PuzzleConstants.TYPE_4:
+		_:
 			board.undo_redo.create_action("Change thing type")
 			board.undo_redo.add_do_method(board, "set_thing_type", thing.name, id)
 			board.undo_redo.add_undo_method(board, "set_thing_type", thing.name, thing.type)
 			board.undo_redo.commit_action()
 
 
-func _on_DisconnectionsMenu_id_pressed(id):
+func _on_disconnections_menu_id_pressed(id: int) -> void:
 	var connection = board.graph.get_connection_list()[id]
 	
 	board.undo_redo.create_action("Disconnect things")

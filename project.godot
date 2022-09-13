@@ -1,0 +1,178 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Puzzle Dependencies"
+config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/puzzle_dependencies/plugin.cfg")
+
+[puzzle_dependencies]
+
+boards={
+"3cff87b0b9": {
+"connections": [{
+"from": &"47241d0416",
+"to": &"42e51a14a6"
+}, {
+"from": &"104687a1e5",
+"to": &"42e51a14a6"
+}, {
+"from": &"78c61765cb",
+"to": &"47241d0416"
+}, {
+"from": &"46c42c405d",
+"to": &"104687a1e5"
+}, {
+"from": &"54f43f5213",
+"to": &"78c61765cb"
+}, {
+"from": &"54f43f5213",
+"to": &"46c42c405d"
+}, {
+"from": &"dc594eb013",
+"to": &"54f43f5213"
+}, {
+"from": &"f19e253846",
+"to": &"dc594eb013"
+}, {
+"from": &"42e51a14a6",
+"to": &"7a78af3c4a"
+}, {
+"from": &"46b1c1219a",
+"to": &"dc594eb013"
+}, {
+"from": &"42e51a14a6",
+"to": &"2cbdb81cdf"
+}, {
+"from": &"42e51a14a6",
+"to": &"aa3563e01d"
+}],
+"id": "3cff87b0b9",
+"label": "Main Board",
+"scroll_offset": Vector2(397, -533.52),
+"things": [{
+"id": &"42e51a14a6",
+"position_offset": Vector2(1320, -420),
+"size": Vector2(150, 104),
+"text": "Open basement door",
+"type": 1
+}, {
+"id": &"47241d0416",
+"position_offset": Vector2(1080, -480),
+"size": Vector2(171, 84),
+"text": "Unlock basement door",
+"type": 0
+}, {
+"id": &"104687a1e5",
+"position_offset": Vector2(1080, -360),
+"size": Vector2(164, 80),
+"text": "Oil hinges",
+"type": 0
+}, {
+"id": &"78c61765cb",
+"position_offset": Vector2(860, -480),
+"size": Vector2(168, 80),
+"text": "Find key behind plant",
+"type": 4
+}, {
+"id": &"46c42c405d",
+"position_offset": Vector2(860, -360),
+"size": Vector2(175, 80),
+"text": "Find Oil can",
+"type": 4
+}, {
+"id": &"54f43f5213",
+"position_offset": Vector2(640, -420),
+"size": Vector2(150, 80),
+"text": "Climb in window",
+"type": 2
+}, {
+"id": &"dc594eb013",
+"position_offset": Vector2(440, -420),
+"size": Vector2(150, 80),
+"text": "Break window",
+"type": 0
+}, {
+"id": &"f19e253846",
+"position_offset": Vector2(20, -500),
+"size": Vector2(150, 80),
+"text": "",
+"type": 0
+}, {
+"id": &"7a78af3c4a",
+"position_offset": Vector2(1680, -500),
+"size": Vector2(150, 80),
+"text": "",
+"type": 0
+}, {
+"id": &"46b1c1219a",
+"position_offset": Vector2(49, -285.52),
+"size": Vector2(150, 80),
+"text": "",
+"type": 0
+}, {
+"id": &"2cbdb81cdf",
+"position_offset": Vector2(1700, -300),
+"size": Vector2(150, 80),
+"text": "",
+"type": 0
+}, {
+"id": &"aa3563e01d",
+"position_offset": Vector2(1709, -398.52),
+"size": Vector2(150, 80),
+"text": "",
+"type": 0
+}],
+"zoom": 1.0
+}
+}
+minimap_enabled=true
+minimap_size=Vector2(200, 150)
+use_snap=true
+snap_distance=20
+current_board_id="3cff87b0b9"
+types={
+0: {
+"color": Color(0, 0, 0, 1),
+"id": 0,
+"label": "Type 1"
+},
+1: {
+"color": Color(1, 0.470588, 0.419608, 1),
+"id": 1,
+"label": "Type 2"
+},
+2: {
+"color": Color(0.741176, 0.576471, 0.976471, 1),
+"id": 2,
+"label": "Type 3"
+},
+3: {
+"color": Color(0.45098, 0.94902, 0.501961, 1),
+"id": 3,
+"label": "Type 4"
+},
+4: {
+"color": Color(1, 0.870588, 0.4, 1),
+"id": 4,
+"label": "Type 5"
+},
+2694: {
+"color": Color(1, 0, 0.726563, 1),
+"id": 2694,
+"label": "Blah"
+}
+}
+last_export_path="res://"

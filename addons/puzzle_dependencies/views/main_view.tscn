@@ -1,219 +1,233 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://dtxcu8lpodxx1"]
 
-[ext_resource path="res://addons/puzzle_dependencies/views/main_view.gd" type="Script" id=1]
-[ext_resource path="res://addons/puzzle_dependencies/components/board.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/puzzle_dependencies/components/update_checker.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/puzzle_dependencies/components/settings.gd" type="Script" id=4]
-[ext_resource path="res://addons/puzzle_dependencies/views/edit_board_dialog.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/puzzle_dependencies/views/settings_dialog.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/puzzle_dependencies/views/export_dialog.tscn" type="PackedScene" id=8]
+[ext_resource type="Script" path="res://addons/puzzle_dependencies/views/main_view.gd" id="1_twcu5"]
+[ext_resource type="PackedScene" uid="uid://bnv7litlim103" path="res://addons/puzzle_dependencies/components/update_button.tscn" id="2_52ns3"]
+[ext_resource type="PackedScene" uid="uid://syrnlbq255lw" path="res://addons/puzzle_dependencies/views/edit_board_dialog.tscn" id="3_cqs6p"]
+[ext_resource type="PackedScene" uid="uid://bolrscxt8k8lu" path="res://addons/puzzle_dependencies/components/board.tscn" id="3_ewedt"]
+[ext_resource type="PackedScene" uid="uid://br3o73hsw61ta" path="res://addons/puzzle_dependencies/views/settings_view.tscn" id="4_ea1pd"]
 
-[sub_resource type="Image" id=1]
+[sub_resource type="Image" id="Image_g6gfj"]
 data = {
-"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
-"format": "LumAlpha8",
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 93, 93, 55, 255, 97, 97, 58, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 98, 98, 47, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 94, 94, 46, 255, 93, 93, 236, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
 "height": 16,
 "mipmaps": false,
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id=2]
-flags = 4
-flags = 4
-image = SubResource( 1 )
-size = Vector2( 16, 16 )
+[sub_resource type="ImageTexture" id="ImageTexture_ax0hm"]
+image = SubResource("Image_g6gfj")
 
 [node name="MainView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
-
-[node name="UpdateChecker" parent="." instance=ExtResource( 3 )]
-plugin_url = "https://github.com/nathanhoad/godot_puzzle_dependencies/tree/v1.x"
-plugin_config_url = "https://raw.githubusercontent.com/nathanhoad/godot_puzzle_dependencies/v1.x/addons/puzzle_dependencies/plugin.cfg"
-
-[node name="Settings" type="Node" parent="."]
-script = ExtResource( 4 )
+script = ExtResource("1_twcu5")
 
 [node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/margin_right = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_edit_layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
-margin_left = 3.0
-margin_right = 1021.0
-margin_bottom = 597.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+layout_mode = 2
+offset_left = 5.0
+offset_right = 1147.0
+offset_bottom = 643.0
 
 [node name="Toolbar" type="HBoxContainer" parent="Margin/VBox"]
-margin_right = 1018.0
-margin_bottom = 24.0
+layout_mode = 2
+offset_right = 1142.0
+offset_bottom = 31.0
 
-[node name="AddBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_right = 28.0
-margin_bottom = 24.0
-hint_tooltip = "Add a new board"
-icon = SubResource( 2 )
+[node name="AddBoardButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_right = 24.0
+offset_bottom = 31.0
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
 [node name="VSeparator" type="VSeparator" parent="Margin/VBox/Toolbar"]
-margin_left = 32.0
-margin_right = 36.0
-margin_bottom = 24.0
+layout_mode = 2
+offset_left = 28.0
+offset_right = 32.0
+offset_bottom = 31.0
 
 [node name="BoardsMenu" type="MenuButton" parent="Margin/VBox/Toolbar"]
-margin_left = 40.0
-margin_right = 160.0
-margin_bottom = 24.0
-disabled = true
-text = "No boards yet"
-icon = SubResource( 2 )
-__meta__ = {
-"_editor_description_": "Pick a board"
-}
+layout_mode = 2
+offset_left = 36.0
+offset_right = 153.0
+offset_bottom = 31.0
+text = "Main Board"
+icon = SubResource("ImageTexture_ax0hm")
+item_count = 1
+popup/item_0/text = "Main Board"
+popup/item_0/icon = SubResource("ImageTexture_ax0hm")
+popup/item_0/id = 0
 
-[node name="EditBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 164.0
-margin_right = 192.0
-margin_bottom = 24.0
-hint_tooltip = "Rename board..."
-disabled = true
-icon = SubResource( 2 )
-__meta__ = {
-"_editor_description_": "Rename the board"
-}
+[node name="EditBoardButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 157.0
+offset_right = 181.0
+offset_bottom = 31.0
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
-[node name="RemoveBoardButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 196.0
-margin_right = 224.0
-margin_bottom = 24.0
-hint_tooltip = "Remove board..."
-disabled = true
-icon = SubResource( 2 )
+[node name="RemoveBoardButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 185.0
+offset_right = 209.0
+offset_bottom = 31.0
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
+
+[node name="ExportButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 213.0
+offset_right = 290.0
+offset_bottom = 31.0
+text = "Export"
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
 [node name="Spacer" type="Control" parent="Margin/VBox/Toolbar"]
-margin_left = 228.0
-margin_right = 432.0
-margin_bottom = 24.0
+layout_mode = 2
+anchors_preset = 0
+offset_left = 294.0
+offset_right = 573.0
+offset_bottom = 31.0
 size_flags_horizontal = 3
 
-[node name="AddThingButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 436.0
-margin_right = 528.0
-margin_bottom = 24.0
-hint_tooltip = "Add a new thing to the board"
-disabled = true
+[node name="AddThingButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 577.0
+offset_right = 678.0
+offset_bottom = 31.0
 text = "Add thing"
-icon = SubResource( 2 )
-__meta__ = {
-"_editor_description_": "A a new thing to the board"
-}
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
-[node name="RemoveThingButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 532.0
-margin_right = 560.0
-margin_bottom = 24.0
-hint_tooltip = "Remove selected thing"
-disabled = true
-icon = SubResource( 2 )
-__meta__ = {
-"_editor_description_": "Remove select thing from the board"
-}
+[node name="RemoveThingButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 682.0
+offset_right = 706.0
+offset_bottom = 31.0
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
 [node name="Spacer2" type="Control" parent="Margin/VBox/Toolbar"]
-margin_left = 564.0
-margin_right = 769.0
-margin_bottom = 24.0
+layout_mode = 2
+anchors_preset = 0
+offset_left = 710.0
+offset_right = 989.0
+offset_bottom = 31.0
 size_flags_horizontal = 3
 
-[node name="SettingsButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 773.0
-margin_right = 801.0
-margin_bottom = 24.0
-hint_tooltip = "Settings"
-icon = SubResource( 2 )
-__meta__ = {
-"_editor_description_": "A a new thing to the board"
-}
+[node name="SettingsButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 993.0
+offset_right = 1017.0
+offset_bottom = 31.0
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
-[node name="ExportButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 805.0
-margin_right = 833.0
-margin_bottom = 24.0
-icon = SubResource( 2 )
+[node name="VSeparator2" type="VSeparator" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 1021.0
+offset_right = 1025.0
+offset_bottom = 31.0
 
-[node name="VSeparator3" type="VSeparator" parent="Margin/VBox/Toolbar"]
-margin_left = 837.0
-margin_right = 841.0
-margin_bottom = 24.0
-
-[node name="HelpButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
-margin_left = 845.0
-margin_right = 975.0
-margin_bottom = 24.0
-hint_tooltip = "View online documentation"
-text = "Documentation"
-icon = SubResource( 2 )
+[node name="DocsButton" type="Button" parent="Margin/VBox/Toolbar"]
+layout_mode = 2
+offset_left = 1029.0
+offset_right = 1093.0
+offset_bottom = 31.0
+text = "Docs"
+icon = SubResource("ImageTexture_ax0hm")
+flat = true
 
 [node name="VersionLabel" type="Label" parent="Margin/VBox/Toolbar"]
-modulate = Color( 1, 1, 1, 0.392157 )
-margin_left = 979.0
-margin_right = 1018.0
-margin_bottom = 24.0
-size_flags_vertical = 1
-text = "v1.0.1"
-valign = 1
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+offset_left = 1097.0
+offset_top = 2.0
+offset_right = 1142.0
+offset_bottom = 28.0
+text = "v1.2.1"
+vertical_alignment = 1
 
-[node name="UpdateButton" type="ToolButton" parent="Margin/VBox/Toolbar"]
+[node name="UpdateButton" parent="Margin/VBox/Toolbar" instance=ExtResource("2_52ns3")]
 visible = false
-margin_left = 1863.0
-margin_right = 1914.0
-margin_bottom = 22.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "v0.0.1"
-__meta__ = {
-"_editor_description_": "Open GitHub repository"
-}
+layout_mode = 2
+offset_left = 1016.0
+offset_right = 1142.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+text = "v1.2.1 available"
+flat = true
 
-[node name="Board" parent="Margin/VBox" instance=ExtResource( 2 )]
-visible = false
+[node name="Board" parent="Margin/VBox" instance=ExtResource("3_ewedt")]
+layout_mode = 2
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
-margin_right = 1018.0
-margin_bottom = 597.0
-_settings = NodePath("../../../Settings")
+offset_top = 35.0
+offset_right = 1142.0
+offset_bottom = 643.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_vertical = 3
 
-[node name="EditBoardDialog" parent="." instance=ExtResource( 5 )]
-visible = false
+[node name="EditBoardDialog" parent="." instance=ExtResource("3_cqs6p")]
+title = "Edit board"
+size = Vector2i(300, 120)
+unresizable = true
+min_size = Vector2i(300, 80)
 
 [node name="ConfirmRemoveBoardDialog" type="ConfirmationDialog" parent="."]
-margin_right = 200.0
-margin_bottom = 70.0
-window_title = "Remove board?"
+title = "Remove board?"
+unresizable = true
 
-[node name="SettingsDialog" parent="." instance=ExtResource( 6 )]
-_settings = NodePath("../Settings")
+[node name="SettingsDialog" type="AcceptDialog" parent="."]
+title = "Settings"
+size = Vector2i(600, 500)
+min_size = Vector2i(400, 300)
+ok_button_text = "Close"
 
-[node name="ExportDialog" parent="." instance=ExtResource( 8 )]
+[node name="SettingsView" parent="SettingsDialog" instance=ExtResource("4_ea1pd")]
 
-[connection signal="visibility_changed" from="." to="." method="_on_MainView_visibility_changed"]
-[connection signal="has_update" from="UpdateChecker" to="." method="_on_UpdateChecker_has_update"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/AddBoardButton" to="." method="_on_AddBoardButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/EditBoardButton" to="." method="_on_EditBoardButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/RemoveBoardButton" to="." method="_on_RemoveBoardButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/AddThingButton" to="." method="_on_AddThingButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/RemoveThingButton" to="." method="_on_RemoveThingButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/SettingsButton" to="." method="_on_SettingsButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/ExportButton" to="." method="_on_ExportButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/HelpButton" to="." method="_on_HelpButton_pressed"]
-[connection signal="pressed" from="Margin/VBox/Toolbar/UpdateButton" to="." method="_on_UpdateButton_pressed"]
-[connection signal="updated" from="EditBoardDialog" to="." method="_on_EditBoardDialog_updated"]
-[connection signal="confirmed" from="ConfirmRemoveBoardDialog" to="." method="_on_ConfirmRemoveBoardDialog_confirmed"]
+[node name="ExportDialog" type="FileDialog" parent="."]
+title = "Export board"
+size = Vector2i(600, 500)
+min_size = Vector2i(600, 500)
+ok_button_text = "Export"
+filters = PackedStringArray("*.dot ; Graphviz")
+
+[connection signal="theme_changed" from="." to="." method="_on_main_view_theme_changed"]
+[connection signal="visibility_changed" from="." to="." method="_on_main_view_visibility_changed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/AddBoardButton" to="." method="_on_add_board_button_pressed"]
+[connection signal="about_to_popup" from="Margin/VBox/Toolbar/BoardsMenu" to="." method="_on_boards_menu_about_to_popup"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/EditBoardButton" to="." method="_on_edit_board_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/RemoveBoardButton" to="." method="_on_remove_board_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/ExportButton" to="." method="_on_export_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/AddThingButton" to="." method="_on_add_thing_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/RemoveThingButton" to="." method="_on_remove_thing_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Toolbar/DocsButton" to="." method="_on_docs_button_pressed"]
+[connection signal="updated" from="EditBoardDialog" to="." method="_on_edit_board_dialog_updated"]
+[connection signal="confirmed" from="ConfirmRemoveBoardDialog" to="." method="_on_confirm_remove_board_dialog_confirmed"]
+[connection signal="confirmed" from="SettingsDialog" to="." method="_on_settings_dialog_confirmed"]
+[connection signal="file_selected" from="ExportDialog" to="." method="_on_export_dialog_file_selected"]

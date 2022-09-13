@@ -1,116 +1,85 @@
-tool
+@tool
 extends Control
 
 
-const PuzzleConstants = preload("res://addons/puzzle_dependencies/constants.gd")
+signal types_change(types: Array[Dictionary])
 
 
-onready var update_checker := $UpdateChecker
-onready var settings := $Settings
-onready var add_board_button := $Margin/VBox/Toolbar/AddBoardButton
-onready var boards_menu := $Margin/VBox/Toolbar/BoardsMenu
-onready var edit_board_button := $Margin/VBox/Toolbar/EditBoardButton
-onready var remove_board_button := $Margin/VBox/Toolbar/RemoveBoardButton
-onready var add_thing_button := $Margin/VBox/Toolbar/AddThingButton
-onready var remove_thing_button := $Margin/VBox/Toolbar/RemoveThingButton
-onready var settings_button := $Margin/VBox/Toolbar/SettingsButton
-onready var export_button := $Margin/VBox/Toolbar/ExportButton
-onready var help_button := $Margin/VBox/Toolbar/HelpButton
-onready var update_button := $Margin/VBox/Toolbar/UpdateButton
-onready var board := $Margin/VBox/Board
-onready var edit_board_dialog := $EditBoardDialog
-onready var confirm_remove_board_dialog := $ConfirmRemoveBoardDialog
-onready var settings_dialog := $SettingsDialog
-onready var export_dialog := $ExportDialog
+const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleExport = preload("res://addons/puzzle_dependencies/utilities/export.gd")
 
-var plugin
-var undo_redo: UndoRedo setget set_undo_redo
+
+@onready var add_board_button: Button = $Margin/VBox/Toolbar/AddBoardButton
+@onready var boards_menu: MenuButton = $Margin/VBox/Toolbar/BoardsMenu
+@onready var edit_board_button: Button = $Margin/VBox/Toolbar/EditBoardButton
+@onready var remove_board_button: Button = $Margin/VBox/Toolbar/RemoveBoardButton
+@onready var export_button: Button = $Margin/VBox/Toolbar/ExportButton
+@onready var add_thing_button: Button = $Margin/VBox/Toolbar/AddThingButton
+@onready var remove_thing_button: Button = $Margin/VBox/Toolbar/RemoveThingButton
+@onready var settings_button: Button = $Margin/VBox/Toolbar/SettingsButton
+@onready var docs_button: Button = $Margin/VBox/Toolbar/DocsButton
+@onready var update_button := $Margin/VBox/Toolbar/UpdateButton
+@onready var version_label: Label = $Margin/VBox/Toolbar/VersionLabel
+@onready var board := $Margin/VBox/Board
+@onready var edit_board_dialog := $EditBoardDialog
+@onready var confirm_remove_board_dialog: AcceptDialog = $ConfirmRemoveBoardDialog
+@onready var settings_view := $SettingsDialog/SettingsView
+@onready var export_dialog: FileDialog = $ExportDialog
+
+var editor_plugin: EditorPlugin
+var undo_redo: EditorUndoRedoManager:
+	set(next_undo_redo):
+		undo_redo = next_undo_redo
+		board.undo_redo = next_undo_redo
+	get:
+		return undo_redo
 
 var boards: Dictionary = {}
 var current_board_id: String = ""
 
 
 func _ready() -> void:
-	# Set up icons
-	add_board_button.icon = get_icon("New", "EditorIcons")
-	boards_menu.icon = get_icon("GraphNode", "EditorIcons")
-	edit_board_button.icon = get_icon("Edit", "EditorIcons")
-	remove_board_button.icon = get_icon("Remove", "EditorIcons")
-	add_thing_button.icon = get_icon("ToolAddNode", "EditorIcons")
-	remove_thing_button.icon = get_icon("Remove", "EditorIcons")
-	settings_button.icon = get_icon("Tools", "EditorIcons")
-	export_button.icon = get_icon("ExternalLink", "EditorIcons")
-	help_button.icon = get_icon("Help", "EditorIcons")
+	call_deferred("apply_theme")
+	
+	# Set up the update checker
+	version_label.text = "v%s" % update_button.get_version()
+	update_button.editor_plugin = editor_plugin
 	
 	# Get boards
-	boards = settings.get_value("boards", {})
-	go_to_board(settings.get_value("current_board_id", ""))
+	boards = PuzzleSettings.get_setting("boards", {})
+	go_to_board(PuzzleSettings.get_setting("current_board_id", ""))
 	if current_board_id != "":
 		board.from_serialized(boards.get(current_board_id))
-	build_boards_menu()
 	
-	# Show current version
-	var config = ConfigFile.new()
-	var err = config.load("res://addons/puzzle_dependencies/plugin.cfg")
-	if err == OK:
-		$Margin/VBox/Toolbar/VersionLabel.text = "v" + config.get_value("plugin", "version")
-	
-	# Check for updates
-	update_checker.check_for_updates()
-	update_button.hide()
-	update_button.add_color_override("font_color", get_color("success_color", "Editor"))
-
-	export_dialog.connect("export_done", self, "_on_export_done")
+	settings_view.dialog = $SettingsDialog
 
 
 func apply_changes() -> void:
-	save_board()
-	board.apply_changes()
-
-
-func prepare_for_version_2() -> void:
-	save_board()
-	
-	# A couple of properties are now different so we have to update them
-	var boards2 = boards.duplicate(true)
-	for b in boards2.values():
-		for t in b.things:
-			t["position_offset"] = t.offset
-			t.erase("offset")
-			t["size"] = t.rect_size
-			t.erase("rect_size")
-	ProjectSettings.set_setting("puzzle_dependencies/boards", boards2)
-	
-	# Save the type labels/colors so they still match up
-	var types = [
-		{ 
-			id = PuzzleConstants.TYPE_DEFAULT,
-			color = Color.black,
-			label = "Default"
-		}
-	] + settings.get_types()
-	ProjectSettings.set_setting("puzzle_dependencies/types", types)
-	
-	# Save general config
-	ProjectSettings.set_setting("puzzle_dependencies/current_board_id", current_board_id)
-	ProjectSettings.set_setting("puzzle_dependencies/minimap_enabled", board.graph.minimap_enabled)
-	ProjectSettings.set_setting("puzzle_dependencies/minimap_size", board.graph.minimap_size)
-	ProjectSettings.set_setting("puzzle_dependencies/use_snap", board.graph.use_snap)
-	ProjectSettings.set_setting("puzzle_dependencies/snap_distance", board.graph.snap_distance)
-	ProjectSettings.set_setting("puzzle_dependencies/last_export_path", settings.get_value("export_save_location", "res://"))
-	
-	ProjectSettings.save()
-
-
-### Setters
-
-
-func set_undo_redo(next_undo_redo: UndoRedo) -> void:
-	undo_redo = next_undo_redo
-	board.undo_redo = next_undo_redo
+	if is_instance_valid(board):
+		save_board()
+		board.apply_changes()
 
 
 ### Helpers
+
+
+func apply_theme() -> void:
+	# Simple check if onready
+	if is_instance_valid(add_board_button):
+		add_board_button.icon = get_theme_icon("New", "EditorIcons")
+		boards_menu.icon = get_theme_icon("GraphNode", "EditorIcons")
+		edit_board_button.icon = get_theme_icon("Edit", "EditorIcons")
+		remove_board_button.icon = get_theme_icon("Remove", "EditorIcons")
+		add_thing_button.icon = get_theme_icon("ToolAddNode", "EditorIcons")
+		add_thing_button.text = "Add thing"
+		remove_thing_button.icon = get_theme_icon("Remove", "EditorIcons")
+		settings_button.icon = get_theme_icon("Tools", "EditorIcons")
+		export_button.icon = get_theme_icon("ExternalLink", "EditorIcons")
+		export_button.text = "Export"
+		docs_button.icon = get_theme_icon("Help", "EditorIcons")
+		docs_button.text = "Docs"
+
+		update_button.apply_theme()
 
 
 func go_to_board(id: String) -> void:
@@ -118,7 +87,7 @@ func go_to_board(id: String) -> void:
 		save_board()
 		
 		current_board_id = id
-		settings.set_value("current_board_id", id)
+		PuzzleSettings.set_setting("current_board_id", id)
 		
 		if boards.has(current_board_id):
 			var board_data = boards.get(current_board_id)
@@ -140,11 +109,11 @@ func go_to_board(id: String) -> void:
 
 
 func build_boards_menu() -> void:
-	var menu = boards_menu.get_popup()
+	var menu: PopupMenu = boards_menu.get_popup()
 	menu.clear()
 	
-	if menu.is_connected("index_pressed", self, "_on_boards_menu_index_pressed"):
-		menu.disconnect("index_pressed", self, "_on_boards_menu_index_pressed")
+	if menu.index_pressed.is_connected(_on_boards_menu_index_pressed):
+		menu.index_pressed.disconnect(_on_boards_menu_index_pressed)
 	
 	if boards.size() == 0:
 		boards_menu.text = "No boards yet"
@@ -158,11 +127,11 @@ func build_boards_menu() -> void:
 			labels.append(board_data.label)
 		labels.sort()
 		for label in labels:
-			menu.add_icon_item(get_icon("GraphNode", "EditorIcons"), label)
+			menu.add_icon_item(get_theme_icon("GraphNode", "EditorIcons"), label)
 		
 		if boards.has(current_board_id):
 			boards_menu.text = boards.get(current_board_id).label
-		menu.connect("index_pressed", self, "_on_boards_menu_index_pressed")
+		menu.index_pressed.connect(_on_boards_menu_index_pressed)
 
 
 func set_board_data(id: String, data: Dictionary) -> void:
@@ -178,8 +147,7 @@ func save_board() -> void:
 		var data = board.to_serialized()
 		for key in data.keys():
 			boards[current_board_id][key] = data.get(key)
-	
-	settings.set_value("boards", boards)
+	PuzzleSettings.set_setting("boards", boards)
 
 
 func remove_board() -> void:
@@ -205,6 +173,7 @@ func _unremove_board(id: String, data: Dictionary) -> void:
 	build_boards_menu()
 	go_to_board(id)
 
+
 ### Signals
 
 
@@ -219,20 +188,30 @@ func _on_boards_menu_index_pressed(index):
 			undo_redo.commit_action()
 
 
-func _on_UpdateChecker_has_update(version, url):
-	update_button.show()
-	update_button.text = "v" + version + " available!"
+func _on_main_view_theme_changed() -> void:
+	apply_theme()
 
 
-func _on_AddBoardButton_pressed():
+func _on_main_view_visibility_changed() -> void:
+	if visible:
+		apply_changes()
+		if is_instance_valid(board):
+			board.redraw()
+
+
+func _on_add_board_button_pressed() -> void:
 	edit_board_dialog.edit_board(board.create_new_board_data())
 
 
-func _on_EditBoardButton_pressed():
+func _on_boards_menu_about_to_popup() -> void:
+	build_boards_menu()
+
+
+func _on_edit_board_button_pressed() -> void:
 	edit_board_dialog.edit_board(boards[current_board_id])
 
 
-func _on_EditBoardDialog_updated(data):
+func _on_edit_board_dialog_updated(data: Dictionary) -> void:
 	if boards.has(data.id):
 		undo_redo.create_action("Set board label")
 		undo_redo.add_do_method(self, "set_board_data", data.id, { label = data.label })
@@ -247,48 +226,43 @@ func _on_EditBoardDialog_updated(data):
 		undo_redo.commit_action()
 
 
-func _on_AddThingButton_pressed():
-	board.add_thing_in_center()
-
-
-func _on_RemoveThingButton_pressed():
-	board.delete_selected_things()
-
-
-func _on_RemoveBoardButton_pressed():
+func _on_remove_board_button_pressed() -> void:
 	confirm_remove_board_dialog.dialog_text = "Remove '%s'" % boards.get(current_board_id).label
 	confirm_remove_board_dialog.popup_centered()
 
 
-func _on_ConfirmRemoveBoardDialog_confirmed():
+func _on_add_thing_button_pressed() -> void:
+	board.add_thing_in_center()
+
+
+func _on_remove_thing_button_pressed() -> void:
+	board.delete_selected_things()
+
+
+func _on_confirm_remove_board_dialog_confirmed() -> void:
 	remove_board()
 
 
-func _on_MainView_visibility_changed():
-	if visible:
-		apply_changes()
-		board.redraw()
+func _on_settings_button_pressed() -> void:
+	settings_view.popup_centered()
 
 
-func _on_SettingsButton_pressed():
-	settings_dialog.popup_centered()
+func _on_settings_dialog_confirmed() -> void:
+	board.apply_type_changes()
 
 
-func _on_HelpButton_pressed():
+func _on_docs_button_pressed() -> void:
 	OS.shell_open("https://github.com/nathanhoad/godot_puzzle_dependencies")
 
 
-func _on_UpdateButton_pressed():
-	OS.shell_open(update_checker.plugin_url)
-
-
-func _on_ExportButton_pressed():
+func _on_export_button_pressed() -> void:
 	save_board()
-
-	var save_location: String = settings.get_value("export_save_location", "res://")
-
-	export_dialog.export_boards(boards, current_board_id, settings.get_types(), save_location)
+	export_dialog.current_path = PuzzleSettings.get_setting("last_export_path", "")
+	export_dialog.popup_centered()
 
 
-func _on_export_done(save_location: String):
-	settings.set_value("export_save_location", save_location)
+func _on_export_dialog_file_selected(path: String) -> void:
+	if path != "":
+		PuzzleSettings.set_setting("last_export_path", path)
+		PuzzleExport.as_graphviz(board.to_serialized(), path)
+		

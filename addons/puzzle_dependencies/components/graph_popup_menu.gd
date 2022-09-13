@@ -1,36 +1,30 @@
-tool
+@tool
 extends PopupMenu
 
 
-signal add_thing(position, type)
+signal add_thing(position: Vector2, type: int)
 
 
-const PuzzleConstants = preload("res://addons/puzzle_dependencies/constants.gd")
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/components/settings.gd")
+const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleIcons = preload("res://addons/puzzle_dependencies/utilities/icons.gd")
 
 
-onready var icons := $Icons
-onready var settings: PuzzleSettings
-
-
-### Helpers
-
-
-func popup_at(position: Vector2) -> void:
-	clear()
-	
-	var icon_size = get_icon("Remove", "EditorIcons").get_size()
-	add_icon_item(icons.create_color_icon(Color.black, icon_size), "Add Default thing here", PuzzleConstants.TYPE_DEFAULT)
-	for id in [PuzzleConstants.TYPE_1, PuzzleConstants.TYPE_2, PuzzleConstants.TYPE_3, PuzzleConstants.TYPE_4]:
-		var type = settings.get_type(id)
-		add_icon_item(icons.create_color_icon(type.color, icon_size), "Add %s thing here" % type.label, id)
-	
-	rect_global_position = position
+## Show the popup menu at a position
+func popup_at(next_position: Vector2) -> void:
+	position = next_position
 	popup()
 
 
 ### Signals
 
 
-func _on_GraphPopupMenu_id_pressed(id):
-	emit_signal("add_thing", rect_global_position, id)
+func _on_graph_popup_menu_about_to_popup() -> void:
+	clear()
+	size = Vector2.ZERO
+	var icon_size = get_theme_icon("Remove", "EditorIcons").get_size()
+	for type in PuzzleSettings.get_types().values(): 
+		add_icon_item(PuzzleIcons.create_color_icon(type.color, icon_size), "Add %s thing here" % type.label, type.id)
+
+
+func _on_graph_popup_menu_id_pressed(id: int) -> void:
+	emit_signal("add_thing", position, id)

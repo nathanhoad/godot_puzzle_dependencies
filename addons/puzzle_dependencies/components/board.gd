@@ -1,58 +1,60 @@
-tool
+@tool
 extends Control
 
 
 signal change(action_name)
 
 
+const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
 const PuzzleThingScene = preload("res://addons/puzzle_dependencies/components/thing.tscn")
 const PuzzleThing = preload("res://addons/puzzle_dependencies/components/thing.gd")
 
 const THING_SIZE = Vector2(150, 80)
 
-export(NodePath) var _settings = NodePath()
 
-onready var settings = get_node_or_null(_settings)
-onready var graph := $Graph
-onready var graph_menu := $GraphMenu
-onready var thing_menu := $ThingMenu
+@onready var graph: GraphEdit = $Graph
+@onready var graph_menu := $GraphPopupMenu
+@onready var thing_menu := $ThingPopupMenu
 
 var things: Dictionary = {}
-var undo_redo: UndoRedo
+var undo_redo: EditorUndoRedoManager
 
 
 func _ready() -> void:
 	graph.show_zoom_label = true
 	graph.add_valid_connection_type(0, 0)
 	
-	if is_instance_valid(settings):
-		graph.minimap_enabled = settings.get_value("minimap_enabled", true)
-		graph.minimap_size = settings.get_value("minimap_size", Vector2(200, 150))
-		graph.use_snap = settings.get_value("use_snap", true)
-		graph.snap_distance = settings.get_value("snap_distance", 20)
-		
-		thing_menu.settings = settings
-		graph_menu.settings = settings
-		
-		settings.connect("types_changed", self, "_on_settings_types_changed")
+	graph.minimap_enabled = PuzzleSettings.get_setting("minimap_enabled", true)
+	graph.minimap_size = PuzzleSettings.get_setting("minimap_size", Vector2(200, 150))
+	graph.use_snap = PuzzleSettings.get_setting("use_snap", true)
+	graph.snap_distance = PuzzleSettings.get_setting("snap_distance", 20)
+	
+	thing_menu.board = self
 
 
 ### Helpers
 
 
 func apply_changes() -> void:
-	if is_instance_valid(settings):
-		settings.set_value("minimap_enabled", graph.minimap_enabled)
-		settings.set_value("minimap_size", graph.minimap_size)
-		settings.set_value("use_snap", graph.use_snap)
-		settings.set_value("snap_distance", graph.snap_distance)
+	PuzzleSettings.set_setting("minimap_enabled", graph.minimap_enabled)
+	PuzzleSettings.set_setting("minimap_size", graph.minimap_size)
+	PuzzleSettings.set_setting("use_snap", graph.use_snap)
+	PuzzleSettings.set_setting("snap_distance", graph.snap_distance)
+
+
+func apply_type_changes() -> void:
+	for thing in things.values():
+		thing.set_type(thing.type)
 
 
 func redraw() -> void:
 	# Sometimes the graph connections are pointing to the wrong position
 	# on resized things. This forces it to rerender.
-	graph.hide()
-	graph.show()
+	if things.size() > 0:
+		var first_thing = things[things.keys()[0]]
+		first_thing.position_offset += Vector2.UP
+		await get_tree().process_frame
+		first_thing.position_offset -= Vector2.UP
 
 
 func create_new_board_data() -> Dictionary:
@@ -108,7 +110,7 @@ func from_serialized(data: Dictionary) -> void:
 
 func get_random_id() -> String:
 	randomize()
-	seed(OS.get_unix_time())
+	seed(Time.get_unix_time_from_system())
 	return str(randi() % 1000000).sha1_text().substr(0, 10)
 
 
@@ -117,7 +119,7 @@ func add_thing_in_center() -> void:
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, {
-		offset = (graph.scroll_offset + rect_size * 0.5 - THING_SIZE * 0.5) * 1 / graph.zoom
+		position_offset = (graph.scroll_offset + size * 0.5 - THING_SIZE * 0.5) * 1 / graph.zoom
 	})
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.commit_action()
@@ -131,10 +133,9 @@ func add_thing(id: String, data: Dictionary = {}) -> void:
 
 
 func _add_thing(id: String, data: Dictionary = {}) -> void:
-	var thing: PuzzleThing = PuzzleThingScene.instance()
+	var thing: PuzzleThing = PuzzleThingScene.instantiate()
 	
 	thing.board = self
-	thing.settings = settings
 	graph.add_child(thing)
 	
 	thing.name = id
@@ -144,9 +145,9 @@ func _add_thing(id: String, data: Dictionary = {}) -> void:
 		
 	things[id] = thing
 	
-	thing.connect("selection_request", self, "_on_thing_selection_request", [thing])
-	thing.connect("popup_menu_request", self, "_on_thing_popup_menu_request", [thing])
-	thing.connect("delete_request", self, "_on_thing_delete_request", [thing])
+	thing.selection_request.connect(_on_thing_selection_request.bind(thing))
+	thing.popup_menu_request.connect(_on_thing_popup_menu_request.bind(thing))
+	thing.delete_request.connect(_on_thing_delete_request.bind(thing))
 
 
 func set_thing_text(id: String, text: String) -> void:
@@ -167,10 +168,10 @@ func set_thing_size(id: String, size: Vector2) -> void:
 		thing.call_deferred("set_size", size)
 
 
-func set_thing_offset(id: String, offset: Vector2) -> void:
+func set_thing_position_offset(id: String, offset: Vector2) -> void:
 	var thing = things.get(id)
 	if is_instance_valid(thing):
-		thing.call_deferred("set_offset", offset)
+		thing.call_deferred("set_position_offset", offset)
 
 
 func get_selected_things() -> Array:
@@ -217,32 +218,33 @@ func _delete_thing(id: String) -> void:
 		things.erase(id)
 
 
-### Signals
-
-
-func _on_settings_types_changed(types):
+## Force all things to reevaluate their type for color
+func refresh_things_types() -> void:
 	for thing in things.values():
 		thing.type = thing.type
 
 
-func _on_thing_selection_request(thing):
+### Signals
+
+
+func _on_thing_selection_request(thing: GraphNode):
 	if get_selected_things().size() > 1:
 		graph.grab_focus()
 	else:
 		graph.set_selected(thing)
 
 
-func _on_thing_popup_menu_request(position, thing):
+func _on_thing_popup_menu_request(at_position: Vector2, thing: GraphNode):
 	graph.set_selected(thing)
 	thing_menu.thing = thing
-	thing_menu.popup_at(position)
+	thing_menu.popup_at(DisplayServer.mouse_get_position())
 
 
-func _on_thing_delete_request(thing):
+func _on_thing_delete_request(thing: GraphNode):
 	call_deferred("delete_thing", thing.name)
 
 
-func _on_Graph_gui_input(event):
+func _on_graph_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
 		match event.as_text():
 			"Delete":
@@ -250,23 +252,23 @@ func _on_Graph_gui_input(event):
 				delete_selected_things()
 
 
-func _on_Graph_popup_request(position):
-	graph_menu.popup_at(position)
+func _on_graph_popup_request(at_position: Vector2) -> void:
+	graph_menu.popup_at(DisplayServer.mouse_get_position())
 
 
-func _on_Graph_connection_request(from, from_slot, to, to_slot):
+func _on_graph_connection_request(from: StringName, from_slot: int, to: StringName, to_slot: int) -> void:
 	undo_redo.create_action("Connect things")
 	undo_redo.add_do_method(graph, "connect_node", from, from_slot, to, to_slot)
 	undo_redo.add_undo_method(graph, "disconnect_node", from, from_slot, to, to_slot)
 	undo_redo.commit_action()
 
 
-func _on_Graph_connection_from_empty(to, to_slot, release_position):
+func _on_graph_connection_from_empty(to: StringName, to_slot: int, release_position: Vector2) -> void:
 	var id = get_random_id()
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
-		offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(1, 0.5) 
+		position_offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(1, 0.5) 
 	})
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.add_do_method(graph, "connect_node", id, 0, to, to_slot)
@@ -274,12 +276,12 @@ func _on_Graph_connection_from_empty(to, to_slot, release_position):
 	undo_redo.commit_action()
 
 
-func _on_Graph_connection_to_empty(from, from_slot, release_position):
+func _on_graph_connection_to_empty(from: StringName, from_slot: int, release_position: Vector2) -> void:
 	var id = get_random_id()
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
-		offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(0, 0.5) 
+		position_offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(0, 0.5) 
 	}) 
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.add_do_method(graph, "connect_node", from, from_slot, id, 0)
@@ -287,13 +289,13 @@ func _on_Graph_connection_to_empty(from, from_slot, release_position):
 	undo_redo.commit_action()
 
 
-func _on_GraphMenu_add_thing(position, type):
+func _on_graph_popup_menu_add_thing(position: Vector2, type: int) -> void:
 	var id = get_random_id()
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
 		type = type,
-		offset = (graph.scroll_offset + position - graph.rect_global_position) * 1 / graph.zoom 
+		position_offset = (graph.scroll_offset + position - graph.global_position) * 1 / graph.zoom 
 	}) 
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.commit_action()
