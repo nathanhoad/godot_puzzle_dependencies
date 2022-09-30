@@ -29,7 +29,5 @@ static func as_graphviz(board: Dictionary, path: String) -> void:
 
 	graphviz += "}"
 
-	var file: File = File.new()
-	file.open(path, File.WRITE)
+	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(graphviz)
-	file.close()

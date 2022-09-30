@@ -2,16 +2,17 @@
 extends EditorPlugin
 
 
-const MainView = preload("res://addons/puzzle_dependencies/views/main_view.tscn")
+const MainViewScene = preload("res://addons/puzzle_dependencies/views/main_view.tscn")
+const MainView = preload("res://addons/puzzle_dependencies/views/main_view.gd")
 const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
 
 
-var main_view
+var main_view: MainView
 
 
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
-		main_view = MainView.instantiate()
+		main_view = MainViewScene.instantiate()
 		main_view.editor_plugin = self
 		get_editor_interface().get_editor_main_screen().add_child(main_view)
 		main_view.undo_redo = get_undo_redo()

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Puzzle Dependencies"
-config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
 [editor_plugins]

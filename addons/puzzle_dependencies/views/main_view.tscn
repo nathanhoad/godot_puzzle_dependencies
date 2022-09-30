@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bolrscxt8k8lu" path="res://addons/puzzle_dependencies/components/board.tscn" id="3_ewedt"]
 [ext_resource type="PackedScene" uid="uid://br3o73hsw61ta" path="res://addons/puzzle_dependencies/views/settings_view.tscn" id="4_ea1pd"]
 
-[sub_resource type="Image" id="Image_g6gfj"]
+[sub_resource type="Image" id="Image_f472p"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 93, 93, 55, 255, 97, 97, 58, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 98, 98, 47, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 94, 94, 46, 255, 93, 93, 236, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -15,8 +15,8 @@ data = {
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_ax0hm"]
-image = SubResource("Image_g6gfj")
+[sub_resource type="ImageTexture" id="ImageTexture_dfbgi"]
+image = SubResource("Image_f472p")
 
 [node name="MainView" type="Control"]
 layout_mode = 3
@@ -56,7 +56,7 @@ offset_bottom = 31.0
 layout_mode = 2
 offset_right = 24.0
 offset_bottom = 31.0
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="VSeparator" type="VSeparator" parent="Margin/VBox/Toolbar"]
@@ -71,10 +71,10 @@ offset_left = 36.0
 offset_right = 153.0
 offset_bottom = 31.0
 text = "Main Board"
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 item_count = 1
 popup/item_0/text = "Main Board"
-popup/item_0/icon = SubResource("ImageTexture_ax0hm")
+popup/item_0/icon = SubResource("ImageTexture_dfbgi")
 popup/item_0/id = 0
 
 [node name="EditBoardButton" type="Button" parent="Margin/VBox/Toolbar"]
@@ -82,7 +82,7 @@ layout_mode = 2
 offset_left = 157.0
 offset_right = 181.0
 offset_bottom = 31.0
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="RemoveBoardButton" type="Button" parent="Margin/VBox/Toolbar"]
@@ -90,7 +90,7 @@ layout_mode = 2
 offset_left = 185.0
 offset_right = 209.0
 offset_bottom = 31.0
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="ExportButton" type="Button" parent="Margin/VBox/Toolbar"]
@@ -99,7 +99,7 @@ offset_left = 213.0
 offset_right = 290.0
 offset_bottom = 31.0
 text = "Export"
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="Spacer" type="Control" parent="Margin/VBox/Toolbar"]
@@ -116,7 +116,7 @@ offset_left = 577.0
 offset_right = 678.0
 offset_bottom = 31.0
 text = "Add thing"
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="RemoveThingButton" type="Button" parent="Margin/VBox/Toolbar"]
@@ -124,7 +124,7 @@ layout_mode = 2
 offset_left = 682.0
 offset_right = 706.0
 offset_bottom = 31.0
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="Spacer2" type="Control" parent="Margin/VBox/Toolbar"]
@@ -140,7 +140,7 @@ layout_mode = 2
 offset_left = 993.0
 offset_right = 1017.0
 offset_bottom = 31.0
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="VSeparator2" type="VSeparator" parent="Margin/VBox/Toolbar"]
@@ -155,7 +155,7 @@ offset_left = 1029.0
 offset_right = 1093.0
 offset_bottom = 31.0
 text = "Docs"
-icon = SubResource("ImageTexture_ax0hm")
+icon = SubResource("ImageTexture_dfbgi")
 flat = true
 
 [node name="VersionLabel" type="Label" parent="Margin/VBox/Toolbar"]
@@ -165,7 +165,7 @@ offset_left = 1097.0
 offset_top = 2.0
 offset_right = 1142.0
 offset_bottom = 28.0
-text = "v1.2.1"
+text = "v2.0.0"
 vertical_alignment = 1
 
 [node name="UpdateButton" parent="Margin/VBox/Toolbar" instance=ExtResource("2_52ns3")]
