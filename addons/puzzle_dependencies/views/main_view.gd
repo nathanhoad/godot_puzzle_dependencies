@@ -25,6 +25,7 @@ const PuzzleExport = preload("res://addons/puzzle_dependencies/utilities/export.
 @onready var confirm_remove_board_dialog: AcceptDialog = $ConfirmRemoveBoardDialog
 @onready var settings_view := $SettingsDialog/SettingsView
 @onready var export_dialog: FileDialog = $ExportDialog
+@onready var updated_dialog: AcceptDialog = $UpdatedDialog
 
 var editor_plugin: EditorPlugin
 var undo_redo: EditorUndoRedoManager:
@@ -44,6 +45,17 @@ func _ready() -> void:
 	# Set up the update checker
 	version_label.text = "v%s" % update_button.get_version()
 	update_button.editor_plugin = editor_plugin
+	update_button.on_before_refresh = func on_before_refresh():
+		# Touch a file
+		var touch: FileAccess = FileAccess.open("user://just_updated.txt", FileAccess.WRITE)
+		touch.store_string("just updated")
+		return true
+	
+	# Did we just load from an addon version refresh?
+	var just_updated: bool = FileAccess.file_exists("user://just_updated.txt")
+	if just_updated:
+		DirAccess.remove_absolute("user://just_updated.txt")
+		call_deferred("load_from_version_refresh")
 	
 	# Get boards
 	boards = PuzzleSettings.get_setting("boards", {})
@@ -52,6 +64,8 @@ func _ready() -> void:
 		board.from_serialized(boards.get(current_board_id))
 	
 	settings_view.dialog = $SettingsDialog
+	
+	
 
 
 func apply_changes() -> void:
@@ -61,6 +75,11 @@ func apply_changes() -> void:
 
 
 ### Helpers
+
+
+func load_from_version_refresh() -> void:
+	editor_plugin.get_editor_interface().set_main_screen_editor("Puzzles")
+	updated_dialog.popup_centered()
 
 
 func apply_theme() -> void:

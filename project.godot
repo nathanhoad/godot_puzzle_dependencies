@@ -18,6 +18,11 @@ config/icon="res://icon.png"
 
 enabled=PackedStringArray("res://addons/puzzle_dependencies/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
+
 [puzzle_dependencies]
 
 boards={

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dejnid6sarifj"
-path="res://.godot/imported/icon_light.svg-d1a65722b3f7fc5355cd3901cce8907c.ctex"
+uid="uid://raehofsyuok7"
+path="res://.godot/imported/update.svg-98829616750451c1444c80dc9e290dc0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/puzzle_dependencies/assets/icons/icon_light.svg"
-dest_files=["res://.godot/imported/icon_light.svg-d1a65722b3f7fc5355cd3901cce8907c.ctex"]
+source_file="res://addons/puzzle_dependencies/assets/update.svg"
+dest_files=["res://.godot/imported/update.svg-98829616750451c1444c80dc9e290dc0.ctex"]
 
 [params]
 

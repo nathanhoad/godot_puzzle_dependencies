@@ -1,13 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnv7litlim103"]
+[gd_scene load_steps=3 format=3 uid="uid://bnv7litlim103"]
 
 [ext_resource type="Script" path="res://addons/puzzle_dependencies/components/update_button.gd" id="1_5m2rk"]
+[ext_resource type="PackedScene" uid="uid://ckotpmhllsn50" path="res://addons/puzzle_dependencies/components/download_update_panel.tscn" id="2_e2bs7"]
 
 [node name="UpdateButton" type="Button"]
 offset_right = 8.0
 offset_bottom = 8.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+text = "v2.0.1 available"
 script = ExtResource("1_5m2rk")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
+[node name="DownloadDialog" type="AcceptDialog" parent="."]
+
+[node name="DownloadUpdatePanel" parent="DownloadDialog" instance=ExtResource("2_e2bs7")]
+
+[node name="UpdateFailedDialog" type="AcceptDialog" parent="."]
+
 [connection signal="pressed" from="." to="." method="_on_update_button_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="close_requested" from="DownloadDialog" to="." method="_on_download_dialog_close_requested"]
+[connection signal="failed" from="DownloadDialog/DownloadUpdatePanel" to="." method="_on_download_update_panel_failed"]
+[connection signal="updated" from="DownloadDialog/DownloadUpdatePanel" to="." method="_on_download_update_panel_updated"]

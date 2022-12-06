@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckotpmhllsn50"]
+
+[ext_resource type="Script" path="res://addons/puzzle_dependencies/components/download_update_panel.gd" id="1_4tm1k"]
+[ext_resource type="Texture2D" uid="uid://raehofsyuok7" path="res://addons/puzzle_dependencies/assets/update.svg" id="2_6xcjt"]
+
+[node name="DownloadUpdatePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4tm1k")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 9.0
+offset_right = -1.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Logo" type="TextureRect" parent="VBox"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(300, 80)
+offset_right = 1152.0
+offset_bottom = 80.0
+texture = ExtResource("2_6xcjt")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBox"]
+offset_top = 90.0
+offset_right = 1152.0
+offset_bottom = 116.0
+text = "v1.2.3 is available for download."
+horizontal_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="VBox"]
+offset_top = 126.0
+offset_right = 1152.0
+offset_bottom = 157.0
+
+[node name="DownloadButton" type="Button" parent="VBox/Center"]
+unique_name_in_owner = true
+offset_left = 461.0
+offset_right = 691.0
+offset_bottom = 31.0
+text = "Download and install update"
+
+[node name="Center2" type="CenterContainer" parent="VBox"]
+offset_top = 167.0
+offset_right = 1152.0
+offset_bottom = 190.0
+
+[node name="NotesButton" type="LinkButton" parent="VBox/Center2"]
+offset_left = 496.0
+offset_right = 656.0
+offset_bottom = 23.0
+text = "Read release notes..."
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="pressed" from="VBox/Center/DownloadButton" to="." method="_on_download_button_pressed"]
+[connection signal="pressed" from="VBox/Center2/NotesButton" to="." method="_on_notes_button_pressed"]
