@@ -112,7 +112,6 @@ func go_to_board(id: String) -> void:
 		if boards.has(current_board_id):
 			var board_data = boards.get(current_board_id)
 			board.from_serialized(board_data)
-			build_boards_menu()
 	
 	if current_board_id == "":
 		board.hide()
@@ -120,12 +119,16 @@ func go_to_board(id: String) -> void:
 		remove_board_button.disabled = true
 		add_thing_button.disabled = true
 		remove_thing_button.disabled = true
+		export_button.disabled = true
 	else:
 		board.show()
 		edit_board_button.disabled = false
 		remove_board_button.disabled = false
 		add_thing_button.disabled = false
 		remove_thing_button.disabled = false
+		export_button.disabled = false
+	
+	build_boards_menu()
 
 
 func build_boards_menu() -> void:
