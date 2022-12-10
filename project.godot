@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Puzzle Dependencies"
 config/features=PackedStringArray("4.0")
-config/icon="res://icon.png"
+config/icon="res://icon.svg"
 
 [editor_plugins]
 
@@ -66,7 +66,7 @@ boards={
 }],
 "id": "3cff87b0b9",
 "label": "Main Board",
-"scroll_offset": Vector2(397, -533.52),
+"scroll_offset": Vector2(318.833, -738),
 "things": [{
 "id": &"42e51a14a6",
 "position_offset": Vector2(1320, -420),
@@ -76,7 +76,7 @@ boards={
 }, {
 "id": &"47241d0416",
 "position_offset": Vector2(1080, -480),
-"size": Vector2(171, 84),
+"size": Vector2(171, 83.9999),
 "text": "Unlock basement door",
 "type": 0
 }, {
@@ -88,7 +88,7 @@ boards={
 }, {
 "id": &"78c61765cb",
 "position_offset": Vector2(860, -480),
-"size": Vector2(168, 80),
+"size": Vector2(168, 79.9999),
 "text": "Find key behind plant",
 "type": 4
 }, {
@@ -124,7 +124,7 @@ boards={
 }, {
 "id": &"46b1c1219a",
 "position_offset": Vector2(49, -285.52),
-"size": Vector2(150, 80),
+"size": Vector2(150, 79.9999),
 "text": "",
 "type": 0
 }, {

@@ -17,6 +17,7 @@ const THING_SIZE = Vector2(150, 80)
 @onready var thing_menu := $ThingPopupMenu
 
 var things: Dictionary = {}
+var editor_plugin: EditorPlugin
 var undo_redo: EditorUndoRedoManager
 
 
@@ -76,9 +77,11 @@ func clear() -> void:
 
 
 func to_serialized() -> Dictionary:
+	var editor_scale: float = get_editor_scale()
+	
 	var serialized_things: Array = []
 	for thing in things.values():
-		serialized_things.append(thing.to_serialized())
+		serialized_things.append(thing.to_serialized(editor_scale))
 	
 	var serialized_connections: Array = []
 	for connection in graph.get_connection_list():
@@ -88,7 +91,7 @@ func to_serialized() -> Dictionary:
 		})
 	
 	return {
-		scroll_offset = graph.scroll_offset,
+		scroll_offset = graph.scroll_offset / editor_scale,
 		zoom = graph.zoom,
 		things = serialized_things,
 		connections = serialized_connections
@@ -98,6 +101,8 @@ func to_serialized() -> Dictionary:
 func from_serialized(data: Dictionary) -> void:
 	clear()
 	
+	var editor_scale: float = get_editor_scale()
+	
 	for serialized_thing in data.things:
 		_add_thing(serialized_thing.id, serialized_thing)
 	
@@ -105,7 +110,11 @@ func from_serialized(data: Dictionary) -> void:
 		graph.connect_node(serialized_connection.from, 0, serialized_connection.to, 0)
 	
 	graph.zoom = data.zoom
-	graph.scroll_offset = data.scroll_offset
+	graph.scroll_offset = data.scroll_offset * editor_scale
+
+
+func get_editor_scale() -> float:
+	return editor_plugin.get_editor_interface().get_editor_scale()
 
 
 func get_random_id() -> String:
@@ -115,11 +124,12 @@ func get_random_id() -> String:
 
 
 func add_thing_in_center() -> void:
+	var editor_scale: float = get_editor_scale()
 	var id = get_random_id()
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, {
-		position_offset = (graph.scroll_offset + size * 0.5 - THING_SIZE * 0.5) * 1 / graph.zoom
+		position_offset = (graph.scroll_offset / editor_scale + size / editor_scale * 0.5 - THING_SIZE * 0.5) / graph.zoom
 	})
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.commit_action()
@@ -133,13 +143,16 @@ func add_thing(id: String, data: Dictionary = {}) -> void:
 
 
 func _add_thing(id: String, data: Dictionary = {}) -> void:
+	var editor_scale: float = get_editor_scale()
+	
 	var thing: PuzzleThing = PuzzleThingScene.instantiate()
+	thing.size = THING_SIZE * editor_scale
 	
 	thing.board = self
 	graph.add_child(thing)
 	
 	thing.name = id
-	thing.from_serialized(data)
+	thing.from_serialized(data, editor_scale)
 	
 	graph.set_selected(thing)
 		
@@ -196,7 +209,7 @@ func delete_selected_things() -> void:
 				undo_redo.add_do_method(graph, "disconnect_node", connection.from, 0, connection.to, 0)
 				undo_redo.add_undo_method(graph, "connect_node", connection.from, 0, connection.to, 0)
 		undo_redo.add_do_method(self, "_delete_thing", id)
-		undo_redo.add_undo_method(self, "_add_thing", id, thing.to_serialized())
+		undo_redo.add_undo_method(self, "_add_thing", id, thing.to_serialized(get_editor_scale()))
 	undo_redo.commit_action()
 
 
@@ -207,7 +220,7 @@ func delete_thing(id: String) -> void:
 			undo_redo.add_do_method(graph, "disconnect_node", connection.from, 0, connection.to, 0)
 			undo_redo.add_undo_method(graph, "connect_node", connection.from, 0, connection.to, 0)
 	undo_redo.add_do_method(self, "_delete_thing", id)
-	undo_redo.add_undo_method(self, "_add_thing", id, things.get(id).to_serialized())
+	undo_redo.add_undo_method(self, "_add_thing", id, things.get(id).to_serialized(get_editor_scale()))
 	undo_redo.commit_action()
 
 
@@ -268,7 +281,7 @@ func _on_graph_connection_from_empty(to: StringName, to_slot: int, release_posit
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
-		position_offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(1, 0.5) 
+		position_offset = (graph.scroll_offset + release_position) / get_editor_scale() / graph.zoom - THING_SIZE * Vector2(1, 0.5) 
 	})
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.add_do_method(graph, "connect_node", id, 0, to, to_slot)
@@ -281,7 +294,7 @@ func _on_graph_connection_to_empty(from: StringName, from_slot: int, release_pos
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
-		position_offset = (graph.scroll_offset + release_position) * 1 / graph.zoom - THING_SIZE * Vector2(0, 0.5) 
+		position_offset = (graph.scroll_offset + release_position) / get_editor_scale() / graph.zoom - THING_SIZE * Vector2(0, 0.5) 
 	}) 
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.add_do_method(graph, "connect_node", from, from_slot, id, 0)
@@ -289,13 +302,13 @@ func _on_graph_connection_to_empty(from: StringName, from_slot: int, release_pos
 	undo_redo.commit_action()
 
 
-func _on_graph_popup_menu_add_thing(position: Vector2, type: int) -> void:
+func _on_graph_popup_menu_add_thing(at_position: Vector2, type: int) -> void:
 	var id = get_random_id()
 	
 	undo_redo.create_action("Add thing")
 	undo_redo.add_do_method(self, "_add_thing", id, { 
 		type = type,
-		position_offset = (graph.scroll_offset + position - graph.global_position) * 1 / graph.zoom 
+		position_offset = (graph.scroll_offset + at_position - graph.global_position) / get_editor_scale() / graph.zoom
 	}) 
 	undo_redo.add_undo_method(self, "_delete_thing", id)
 	undo_redo.commit_action()

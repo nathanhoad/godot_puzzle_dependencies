@@ -60,24 +60,29 @@ func set_type(next_type: int) -> void:
 	grabber.modulate = background_color.darkened(0.2) if background_color.v > 0.5 else background_color.lightened(0.3)
 
 
-func to_serialized() -> Dictionary:
+func to_serialized(scale: float) -> Dictionary:
 	return {
 		id = name,
 		text = text,
 		type = type,
-		position_offset = position_offset,
-		size = size
+		position_offset = position_offset / scale,
+		size = size / scale
 	}
 
 
-func from_serialized(data: Dictionary) -> void:
-	for key in data.keys():
-		if key == "id": continue
-		set(key, data.get(key))
+func from_serialized(data: Dictionary, scale: float) -> void:
+	if data.has("text"):
+		set("text", data.text)
+	if data.has("position_offset"):
+		set("position_offset", data.position_offset * scale)
+	if data.has("size"):
+		set("size", data.size * scale)
+	if data.has("type"):
+		set_type(data.type)
+	
 	text_edit.text = text
 	previous_size = size
 	has_resized = false
-	set_type(type)
 
 
 ### Signals

@@ -28,6 +28,7 @@ const PuzzleExport = preload("res://addons/puzzle_dependencies/utilities/export.
 @onready var updated_dialog: AcceptDialog = $UpdatedDialog
 
 var editor_plugin: EditorPlugin
+
 var undo_redo: EditorUndoRedoManager:
 	set(next_undo_redo):
 		undo_redo = next_undo_redo
@@ -41,6 +42,8 @@ var current_board_id: String = ""
 
 func _ready() -> void:
 	call_deferred("apply_theme")
+	
+	board.editor_plugin = editor_plugin
 	
 	# Set up the update checker
 	version_label.text = "v%s" % update_button.get_version()
@@ -64,8 +67,6 @@ func _ready() -> void:
 		board.from_serialized(boards.get(current_board_id))
 	
 	settings_view.dialog = $SettingsDialog
-	
-	
 
 
 func apply_changes() -> void:
