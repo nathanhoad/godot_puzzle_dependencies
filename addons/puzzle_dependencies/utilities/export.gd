@@ -2,7 +2,7 @@
 extends Node
 
 
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleSettings = preload("./settings.gd")
 
 
 ## Export a board in graphviz format
@@ -16,7 +16,7 @@ static func as_graphviz(board: Dictionary, path: String) -> void:
 
 		graphviz += "\"%s\" [label=\"%s\", shape=%s, style=%s, fillcolor=\"#%s\", fontcolor=\"#%s\"]\n" \
 			% [
-				thing.id, 
+				thing.id,
 				thing.text,
 				"Mrecord",
 				"filled",

@@ -2,9 +2,9 @@
 extends EditorPlugin
 
 
-const MainViewScene = preload("res://addons/puzzle_dependencies/views/main_view.tscn")
-const MainView = preload("res://addons/puzzle_dependencies/views/main_view.gd")
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const MainViewScene = preload("./views/main_view.tscn")
+const MainView = preload("./views/main_view.gd")
+const PuzzleSettings = preload("./utilities/settings.gd")
 
 
 var main_view: MainView
@@ -17,7 +17,7 @@ func _enter_tree() -> void:
 		get_editor_interface().get_editor_main_screen().add_child(main_view)
 		main_view.undo_redo = get_undo_redo()
 		_make_visible(false)
-		
+
 		# Set up some default types
 		if PuzzleSettings.get_types().size() == 0:
 			PuzzleSettings.set_type(0, "Type 1", Color.BLACK)
@@ -53,7 +53,7 @@ func create_main_icon(scale: float = 1.0) -> Texture2D:
 	var size: Vector2 = Vector2(16, 16) * get_editor_interface().get_editor_scale() * scale
 	var base_color: Color = get_editor_interface().get_editor_main_screen().get_theme_color("base_color", "Editor")
 	var theme: String = "light" if base_color.v > 0.5 else "dark"
-	var base_icon = load("res://addons/puzzle_dependencies/assets/icons/icon_%s.svg" % theme) as Texture2D
+	var base_icon = load(get_script().resource_path.get_base_dir() + "/assets/icons/icon_%s.svg" % theme) as Texture2D
 	var image: Image = base_icon.get_image()
 	image.resize(size.x, size.y, Image.INTERPOLATE_TRILINEAR)
 	return ImageTexture.create_from_image(image)

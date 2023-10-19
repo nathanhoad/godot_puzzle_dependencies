@@ -2,7 +2,7 @@
 extends VBoxContainer
 
 
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleSettings = preload("../utilities/settings.gd")
 
 @onready var add_type_button: Button = $Toolbar/AddTypeButton
 @onready var types_list: Tree = $TypesList
@@ -17,22 +17,22 @@ var root: TreeItem
 ## Build the types list and show the settings dialogue
 func popup_centered() -> void:
 	add_type_button.icon = get_theme_icon("Add", "EditorIcons")
-	
+
 	types_list.clear()
 	root = types_list.create_item()
-	
+
 	for type in PuzzleSettings.get_types().values():
 		add_tree_item(type)
-	
+
 	root.get_child(0).set_button_disabled(3, 0, root.get_child_count() == 1)
-	
+
 	types_list.set_column_expand(0, true)
 	types_list.set_column_custom_minimum_width(0, 200)
 	types_list.set_column_expand(1, false)
 	types_list.set_column_custom_minimum_width(1, 40)
 	types_list.set_column_expand(2, false)
 	types_list.set_column_custom_minimum_width(2, 30)
-	
+
 	dialog.popup_centered()
 
 
