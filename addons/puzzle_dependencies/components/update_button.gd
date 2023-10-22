@@ -21,7 +21,7 @@ var on_before_refresh: Callable = func(): return true
 func _ready() -> void:
 	hide()
 	apply_theme()
-	
+
 	# Check for updates on GitHub
 	http_request.request(REMOTE_CONFIG_URL)
 
@@ -49,15 +49,15 @@ func apply_theme() -> void:
 
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS: return
-	
+
 	# Parse the version number from the remote config file
 	var response = body.get_string_from_utf8()
 	var regex = RegEx.new()
 	regex.compile("version=\"(?<version>\\d+\\.\\d+\\.\\d+)\"")
 	var found = regex.search(response)
-	
+
 	if not found: return
-	
+
 	var current_version: String = get_version()
 	var next_version = found.strings[found.names.get("version")]
 	if version_to_number(next_version) > version_to_number(current_version):
@@ -78,9 +78,9 @@ func _on_download_dialog_close_requested() -> void:
 
 func _on_download_update_panel_updated(updated_to_version: String) -> void:
 	download_dialog.hide()
-	
+
 	editor_plugin.get_editor_interface().get_resource_filesystem().scan()
-	
+
 	var will_refresh = on_before_refresh.call()
 	if will_refresh:
 		print_rich("\n[b]Updated Puzzle Dependencies to v%s[/b]\n" % updated_to_version)

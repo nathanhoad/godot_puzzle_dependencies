@@ -5,8 +5,8 @@ extends Control
 signal types_change(types: Array[Dictionary])
 
 
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
-const PuzzleExport = preload("res://addons/puzzle_dependencies/utilities/export.gd")
+const PuzzleSettings = preload("../utilities/settings.gd")
+const PuzzleExport = preload("../utilities/export.gd")
 
 
 @onready var add_board_button: Button = $Margin/VBox/Toolbar/AddBoardButton
@@ -42,9 +42,9 @@ var current_board_id: String = ""
 
 func _ready() -> void:
 	call_deferred("apply_theme")
-	
+
 	board.editor_plugin = editor_plugin
-	
+
 	# Set up the update checker
 	version_label.text = "v%s" % update_button.get_version()
 	update_button.editor_plugin = editor_plugin
@@ -53,19 +53,21 @@ func _ready() -> void:
 		var touch: FileAccess = FileAccess.open("user://just_updated.txt", FileAccess.WRITE)
 		touch.store_string("just updated")
 		return true
-	
+
 	# Did we just load from an addon version refresh?
 	var just_updated: bool = FileAccess.file_exists("user://just_updated.txt")
 	if just_updated:
 		DirAccess.remove_absolute("user://just_updated.txt")
 		call_deferred("load_from_version_refresh")
-	
+
 	# Get boards
 	boards = PuzzleSettings.get_setting("boards", {})
 	go_to_board(PuzzleSettings.get_setting("current_board_id", ""))
-	if current_board_id != "":
+	if current_board_id != "" and boards.has(current_board_id):
 		board.from_serialized(boards.get(current_board_id))
-	
+	else:
+		current_board_id = ""
+
 	settings_view.dialog = $SettingsDialog
 
 
@@ -105,14 +107,14 @@ func apply_theme() -> void:
 func go_to_board(id: String) -> void:
 	if current_board_id != id:
 		save_board()
-		
+
 		current_board_id = id
 		PuzzleSettings.set_setting("current_board_id", id)
-		
+
 		if boards.has(current_board_id):
 			var board_data = boards.get(current_board_id)
 			board.from_serialized(board_data)
-	
+
 	if current_board_id == "":
 		board.hide()
 		edit_board_button.disabled = true
@@ -127,23 +129,23 @@ func go_to_board(id: String) -> void:
 		add_thing_button.disabled = false
 		remove_thing_button.disabled = false
 		export_button.disabled = false
-	
+
 	build_boards_menu()
 
 
 func build_boards_menu() -> void:
 	var menu: PopupMenu = boards_menu.get_popup()
 	menu.clear()
-	
+
 	if menu.index_pressed.is_connected(_on_boards_menu_index_pressed):
 		menu.index_pressed.disconnect(_on_boards_menu_index_pressed)
-	
+
 	if boards.size() == 0:
 		boards_menu.text = "No boards yet"
 		boards_menu.disabled = true
 	else:
 		boards_menu.disabled = false
-		
+
 		# Add board labels to the menu in alphabetical order
 		var labels := []
 		for board_data in boards.values():
@@ -151,7 +153,7 @@ func build_boards_menu() -> void:
 		labels.sort()
 		for label in labels:
 			menu.add_icon_item(get_theme_icon("GraphNode", "EditorIcons"), label)
-		
+
 		if boards.has(current_board_id):
 			boards_menu.text = boards.get(current_board_id).label
 		menu.index_pressed.connect(_on_boards_menu_index_pressed)
@@ -178,7 +180,7 @@ func remove_board() -> void:
 	var undo_board_data = board.to_serialized()
 	for key in undo_board_data.keys():
 		board_data[key] = undo_board_data.get(key)
-	
+
 	undo_redo.create_action("Delete board")
 	undo_redo.add_do_method(self, "_remove_board", current_board_id)
 	undo_redo.add_undo_method(self, "_unremove_board", current_board_id, board_data)
@@ -288,4 +290,4 @@ func _on_export_dialog_file_selected(path: String) -> void:
 	if path != "":
 		PuzzleSettings.set_setting("last_export_path", path)
 		PuzzleExport.as_graphviz(board.to_serialized(), path)
-		
+

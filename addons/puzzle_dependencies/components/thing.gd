@@ -4,14 +4,14 @@ extends GraphNode
 
 signal selection_request()
 signal popup_menu_request(position: Vector2)
-signal delete_request()
+signal delete_requested()
 
 
-const PuzzleSettings = preload("res://addons/puzzle_dependencies/utilities/settings.gd")
+const PuzzleSettings = preload("../utilities/settings.gd")
 
 
-@onready var frame_style: StyleBoxFlat = get("theme_override_styles/frame")
-@onready var selected_style: StyleBoxFlat = get("theme_override_styles/selected_frame")
+@onready var frame_style: StyleBoxFlat = get("theme_override_styles/panel")
+@onready var selected_style: StyleBoxFlat = get("theme_override_styles/panel_selected")
 @onready var grabber: TextureRect = $VBox/Grabber
 @onready var text_edit: TextEdit = $VBox/TextEdit
 
@@ -20,11 +20,11 @@ var board
 var type: int = 0:
 	get:
 		return type
-		
+
 var text: String = "":
 	get:
 		return text
-		
+
 var has_resized: bool = false
 
 var previous_size: Vector2
@@ -34,6 +34,10 @@ func _ready() -> void:
 	call_deferred("apply_theme")
 	text_edit.set("theme_override_styles/focus", text_edit.get("theme_override_styles/normal"))
 	set_type(type)
+	frame_style = frame_style.duplicate()
+	set("theme_override_styles/panel", frame_style)
+	selected_style = selected_style.duplicate()
+	set("theme_override_styles/panel_selected", selected_style)
 
 
 func apply_theme() -> void:
@@ -79,7 +83,7 @@ func from_serialized(data: Dictionary, scale: float) -> void:
 		set("size", data.size * scale)
 	if data.has("type"):
 		set_type(data.type)
-	
+
 	text_edit.text = text
 	previous_size = size
 	has_resized = false
@@ -115,7 +119,7 @@ func _on_thing_resize_request(new_minsize: Vector2) -> void:
 
 
 func _on_text_edit_focus_entered() -> void:
-	emit_signal("selection_request")
+	selection_request.emit()
 
 
 func _on_text_edit_focus_exited() -> void:
@@ -128,9 +132,9 @@ func _on_text_edit_focus_exited() -> void:
 
 func _on_thing_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == 2:
-		emit_signal("popup_menu_request", event.global_position)
+		popup_menu_request.emit(event.global_position)
 		accept_event()
-	
+
 	if event is InputEventKey and event.is_pressed():
 		match event.as_text():
 			"Escape":
