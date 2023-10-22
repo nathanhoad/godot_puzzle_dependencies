@@ -1,14 +1,14 @@
-![Puzzle Dependencies for Godot](docs/hero.png)
+<img src="docs/logo.svg" width="128" height="128" />
 
-A tool for making [puzzle dependency charts](https://www.grumpygamer.com/puzzle_dependency_charts) for adventure games made with [Godot Game Engine](https://godotengine.org/). 
+# Puzzle Dependencies _for Godot 4_
 
-_**NOTE:** This is for Godot 4. If you are using Godot 3 then have a look at the [v1.x branch](https://github.com/nathanhoad/godot_puzzle_dependencies/tree/v1.x)._
+A tool for making [puzzle dependency charts](https://www.grumpygamer.com/puzzle_dependency_charts) for adventure games made with [Godot 4](https://godotengine.org/).
 
-## Installation
+You can install it via the Asset Library or [downloading a copy](https://github.com/nathanhoad/godot_puzzle_dependencies/archive/refs/heads/main.zip) from GitHub.
 
-1. Clone or download a copy of this repository.
-2. Copy the contents of `addons/puzzle_dependencies` into your `res://addons/puzzle_dependencies` directory.
-3. Enable `Puzzle Dependencies` in your project plugins.
+[![Patreon](https://img.shields.io/badge/Patreon-Support%20this%20Project-%23f1465a?style=for-the-badge)](https://www.patreon.com/nathanhoad) [![Discord](https://img.shields.io/discord/945920743915524176?label=discord&logo=discord&logoColor=%23fff&style=for-the-badge)](https://discord.gg/zwBVQdJchX)
+
+![Puzzle Dependencies for Godot 4 screenshot](docs/screenshot.jpg)
 
 ## Documentation
 
@@ -17,10 +17,6 @@ _**NOTE:** This is for Godot 4. If you are using Godot 3 then have a look at the
 ## Introduction
 
 [![Introduction video](docs/tutorial.png)](https://youtu.be/nXXc1XaI15k)
-
-## Discord
-
-[![Join the Discord](docs/discord.svg)](https://discord.gg/zwBVQdJchX)
 
 ## Contributors
 
