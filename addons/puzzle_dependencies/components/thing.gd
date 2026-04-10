@@ -69,8 +69,8 @@ func to_serialized(scale: float) -> Dictionary:
 		id = name,
 		text = text,
 		type = type,
-		position_offset = position_offset / scale,
-		size = size / scale
+		position_offset = round(position_offset / scale),
+		size = round(size / scale)
 	}
 
 

@@ -91,7 +91,7 @@ func to_serialized() -> Dictionary:
 		})
 
 	return {
-		scroll_offset = graph.scroll_offset / editor_scale,
+		scroll_offset = round(graph.scroll_offset / editor_scale),
 		zoom = graph.zoom,
 		things = serialized_things,
 		connections = serialized_connections
